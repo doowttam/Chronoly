@@ -1,0 +1,15 @@
+#mainWindow {
+    display: none;
+}
+
+#loginLoad {
+    text-align: center;
+}
+
+.loading {
+    display: none;
+}
+
+#login {
+    padding: 10px;
+}
