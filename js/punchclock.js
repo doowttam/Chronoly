@@ -34,6 +34,7 @@ function login() {
         $('#mainWindow').css('display', 'block');
         $('.loading').fadeIn();
         getTodayReport();
+        getWeekReport();
     });
 }
 
@@ -48,6 +49,24 @@ function getTodayReport() {
             total += parseFloat($(this).text());
         });
         $('#time_logged_today').html(total);
+        $('.loading').fadeOut();
+    });
+}
+
+function getWeekReport() {
+
+    var date = new Date();
+    var now_string = date_to_string(date);
+    date.setDate(date.getDate() - date.getDay());
+    var start_string = date_to_string(date);
+    var url = baseUrl + '/time_entries/report.xml?subject_id=' + userId + '&from=' + start_string + 'to=' + now_string;
+
+    $.get(url, function(data) {
+        var total = 0;
+        $(data).find('time-entry > hours').each(function() {
+            total += parseFloat($(this).text());
+        });
+        $('#time_logged_this_week').html(total);
         $('.loading').fadeOut();
     });
 }
