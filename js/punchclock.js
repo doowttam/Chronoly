@@ -90,6 +90,9 @@ function getReports() {
         user_id = $(data).find('person > id').text();
         air.trace('user_id: ' + user_id);
 
+        $('#splashScreen').css('display', 'none');
+        $('#mainWindow').css('display', 'block');
+        
         getTodayReport();
         getWeekReport();
     });
