@@ -35,10 +35,7 @@ function init() {
             }
         });
 
-        // Get their user id from Basecamp. We could cache this, but this request on
-        // start up is an oppertunity to test their credentials and make sure
-        // everything is in working order.
-        getUserId();
+        getReports();
     }
 }
 
@@ -67,12 +64,18 @@ function showSettings(msg) {
     $('.settings').css('display', 'block');
 }
 
-function getUserId() {
+function getReports() {
     air.trace('getUserId');
 
+    // Get their user id from Basecamp. We could cache this, but this request on
+    // start up is an oppertunity to test their credentials and make sure
+    // everything is in working order.
     $.get( base_url + '/me.xml', function(data) {
         user_id = $(data).find('person > id').text();
         air.trace('user_id: ' + user_id);
+
+        getTodayReport();
+        getWeekReport();
     });
 }
 
@@ -81,7 +84,7 @@ function getTodayReport() {
     air.trace('getTodayReport');
 
     var now_string = date_to_string(new Date());
-    var url = baseUrl + '/time_entries/report.xml?subject_id=' + userId + '&from=' + now_string + 'to=' + now_string;
+    var url = base_url + '/time_entries/report.xml?subject_id=' + user_id + '&from=' + now_string + 'to=' + now_string;
 
     $.get(url, function(data) {
         var total = 0;
@@ -99,7 +102,7 @@ function getWeekReport() {
     var now_string = date_to_string(date);
     date.setDate(date.getDate() - date.getDay());
     var start_string = date_to_string(date);
-    var url = baseUrl + '/time_entries/report.xml?subject_id=' + userId + '&from=' + start_string + 'to=' + now_string;
+    var url = base_url + '/time_entries/report.xml?subject_id=' + user_id + '&from=' + start_string + 'to=' + now_string;
 
     $.get(url, function(data) {
         var total = 0;
