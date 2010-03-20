@@ -17,6 +17,8 @@
 
     <div id="mainWindow">
 
+      <a href="#" id="settings_link">Settings</a><br />
+
       Time logged today:<span id="time_logged_today"></span><br />
       Time logged this week:<span id="time_logged_this_week"></span><br />
       Last log time:<span id="last_log_time"></span><br />
@@ -26,6 +28,7 @@
 
     <div id="settingsMask" class="settings"></div>
     <div id="settingsDialog" class="settings">
+        <a href="#" id="close_settings_link">Close</a><br />
         URL: <input id="basecamp_url" type="text" />.basecamphq.com<br />
         API token: <input id="api_token" type="text" /><br />
         <button id="saveSettings" onclick="verifyAndSaveSettings()">Verify and Save</button>

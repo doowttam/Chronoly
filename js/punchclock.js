@@ -5,7 +5,12 @@ var user_id;
 
 function init() {
     air.trace('init');
+
     window.htmlLoader.authenticate = false;  
+
+    // Add onClick handlers
+    document.getElementById('settings_link').addEventListener("click", showSettings);
+    document.getElementById('close_settings_link').addEventListener("click", hideSettings);
 
     var need_settings = checkSettings();
 
@@ -24,14 +29,14 @@ function init() {
             },
             error: function(xhr, status_text, err) {
                 air.trace('Error: ' + status_text);
-                //air.Introspector.Console.log(xhr);
                 if ( status_text.match('timeout') || xhr.status == 404 ) {
                     showSettings('There was a problem accessing Basecamp. Check your Basecamp url and try again.');
                 } else if (xhr.status == 401) {
                     air.trace('Bad credentials');
                     showSettings('There was a problem with your Basecamp credentials.');
+                } else {
+                    air.Introspector.Console.log(xhr);
                 }
-                // FIXME: Need a catch all for errors I didn't expect
             }
         });
 
@@ -59,9 +64,14 @@ function checkSettings() {
 
 function showSettings(msg) {
     // FIXME show message
+    air.trace('Show Settings');
     $('#basecamp_url').val(basecamp_url);
     $('#api_token').val(api_token);
     $('.settings').css('display', 'block');
+}
+
+function hideSettings() {
+    $('.settings').css('display', 'none');
 }
 
 function getReports() {
@@ -156,7 +166,7 @@ function verifyAndSaveSettings() {
 
             user_id = $(data).find('person > id').text();
 
-            $('.settings').css('display', 'none');
+            hideSettings();
         },
         error: function(xhr, status, err) {
 
