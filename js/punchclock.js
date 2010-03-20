@@ -12,6 +12,27 @@ function init() {
     document.getElementById('settings_link').addEventListener("click", showSettings);
     document.getElementById('close_settings_link').addEventListener("click", hideSettings);
 
+    // Set up the defaults for ajax
+    $.ajaxSetup({
+        contentType: 'application/xml',
+        dataType: 'xml',
+        timeout: 10000,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " +  Base64.encode( api_token + ":X" ));
+        },
+        error: function(xhr, status_text, err) {
+            air.trace('Error: ' + status_text);
+            if ( status_text.match('timeout') || xhr.status == 404 ) {
+                showSettings('There was a problem accessing Basecamp. Check your Basecamp url and try again.');
+            } else if (xhr.status == 401) {
+                air.trace('Bad credentials');
+                showSettings('There was a problem with your Basecamp api token.');
+            } else {
+                air.Introspector.Console.log(xhr);
+            }
+        }
+    });
+
     var need_settings = checkSettings();
 
     if ( need_settings == 1 ) {
@@ -19,27 +40,6 @@ function init() {
         // If we didn't pull any data out of the store give them the settings screen
         showSettings();
     } else {
-        // Set up the defaults for ajax
-        $.ajaxSetup({
-            contentType: 'application/xml',
-            dataType: 'xml',
-            timeout: 10000,
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("Authorization", "Basic " +  Base64.encode( api_token + ":X" ));
-            },
-            error: function(xhr, status_text, err) {
-                air.trace('Error: ' + status_text);
-                if ( status_text.match('timeout') || xhr.status == 404 ) {
-                    showSettings('There was a problem accessing Basecamp. Check your Basecamp url and try again.');
-                } else if (xhr.status == 401) {
-                    air.trace('Bad credentials');
-                    showSettings('There was a problem with your Basecamp credentials.');
-                } else {
-                    air.Introspector.Console.log(xhr);
-                }
-            }
-        });
-
         getReports();
     }
 }
@@ -63,8 +63,14 @@ function checkSettings() {
 }
 
 function showSettings(msg) {
-    // FIXME show message
     air.trace('Show Settings');
+
+    // Hack because the onclick eventhandlers pass in 
+    // the event object as a parameter.
+    if ( typeof msg != 'string' )
+        msg = '';
+
+    $('#settings_msg').text(msg);
     $('#basecamp_url').val(basecamp_url);
     $('#api_token').val(api_token);
     $('.settings').css('display', 'block');
@@ -148,11 +154,6 @@ function verifyAndSaveSettings() {
 
     $.ajax({
         url: base_url + '/me.xml',
-        contentType: 'application/xml',
-        dataType: 'xml',
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + encodedPass);
-        },
         success: function(data) {
 
             air.trace('Success: Storing user data in store.');
@@ -167,15 +168,6 @@ function verifyAndSaveSettings() {
             user_id = $(data).find('person > id').text();
 
             hideSettings();
-        },
-        error: function(xhr, status, err) {
-
-            air.trace('Error');
-            air.Introspector.Console.log(xhr);
-            if (xhr.status == 401) {
-                air.trace('Bad credentials');
-            }
-
         }
     });
 
