@@ -1,6 +1,79 @@
+var api_token = '';
+var basecamp_url = '';
+var base_url = '';
+var user_id;
+
 function init() {
+    air.trace('init');
     window.htmlLoader.authenticate = false;  
-    checkSettings();
+
+    var need_settings = checkSettings();
+
+    if ( need_settings == 1 ) {
+        air.trace('need settings');
+        // If we didn't pull any data out of the store give them the settings screen
+        showSettings();
+    } else {
+        // Set up the defaults for ajax
+        $.ajaxSetup({
+            contentType: 'application/xml',
+            dataType: 'xml',
+            timeout: 10000,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " +  Base64.encode( api_token + ":X" ));
+            },
+            error: function(xhr, status_text, err) {
+                air.trace('Error: ' + status_text);
+                //air.Introspector.Console.log(xhr);
+                if ( status_text.match('timeout') || xhr.status == 404 ) {
+                    showSettings('There was a problem accessing Basecamp. Check your Basecamp url and try again.');
+                } else if (xhr.status == 401) {
+                    air.trace('Bad credentials');
+                    showSettings('There was a problem with your Basecamp credentials.');
+                }
+                // FIXME: Need a catch all for errors I didn't expect
+            }
+        });
+
+        // Get their user id from Basecamp. We could cache this, but this request on
+        // start up is an oppertunity to test their credentials and make sure
+        // everything is in working order.
+        getUserId();
+    }
+}
+
+function checkSettings() {
+    air.trace('checkSettings');
+    var api_token_bytes = air.EncryptedLocalStore.getItem("api_token");
+    var basecamp_url_bytes = air.EncryptedLocalStore.getItem("basecamp_url");
+
+    // Pull user data out of store
+    if ( api_token_bytes !== undefined )
+        api_token = api_token_bytes.toString();
+    if ( basecamp_url_bytes !== undefined ) {
+        basecamp_url = basecamp_url_bytes.toString();
+        base_url = 'https://' + basecamp_url + '.basecamphq.com';
+    }
+
+    if ( api_token === undefined || basecamp_url === undefined )
+        return 1;
+    return 0;
+}
+
+function showSettings(msg) {
+    // FIXME show message
+    $('#basecamp_url').val(basecamp_url);
+    $('#api_token').val(api_token);
+    $('.settings').css('display', 'block');
+}
+
+function getUserId() {
+    air.trace('getUserId');
+
+    $.get( base_url + '/me.xml', function(data) {
+        user_id = $(data).find('person > id').text();
+        air.trace('user_id: ' + user_id);
+    });
 }
 
 function getTodayReport() {
@@ -51,24 +124,17 @@ function date_to_string (date) {
     return year + month + date;
 }
 
-function checkSettings() {
-    var api_token = air.EncryptedLocalStore.getItem("api_token");
-    var basecamp_url = air.EncryptedLocalStore.getItem("basecamp_url");
-
-    if ( api_token === undefined || basecamp_url === undefined )
-        $('.settings').css('display', 'block');
-}
-
 function verifyAndSaveSettings() {
     air.trace('verifyAndSaveSettings');
 
-    var api_token = $('#api_token').val();
-    var basecamp_url = 'https://' + $('#basecamp_url').val() + '.basecamphq.com';
+    api_token = $('#api_token').val();
+    basecamp_url = $('#basecamp_url').val();
+    base_url = 'https://' + basecamp_url + '.basecamphq.com';
 
     var encodedPass = Base64.encode( api_token + ":X" );
 
     $.ajax({
-        url: basecamp_url + '/me.xml',
+        url: base_url + '/me.xml',
         contentType: 'application/xml',
         dataType: 'xml',
         beforeSend: function(xhr) {
@@ -81,13 +147,13 @@ function verifyAndSaveSettings() {
             bytes.writeUTFBytes(api_token); 
             air.EncryptedLocalStore.setItem("api_token", bytes);
 
+            bytes = new air.ByteArray();
             bytes.writeUTFBytes(basecamp_url); 
             air.EncryptedLocalStore.setItem("basecamp_url", bytes);
 
-            var userId = $(data).find('person > id').text();
-            bytes.writeUTFBytes(userId); 
-            air.EncryptedLocalStore.setItem("basecamp_user_id", bytes);
+            user_id = $(data).find('person > id').text();
 
+            $('.settings').css('display', 'none');
         },
         error: function(xhr, status, err) {
 
@@ -100,25 +166,4 @@ function verifyAndSaveSettings() {
         }
     });
 
-    // $.ajaxSetup({
-    //     username: api_token,
-    //     password: 'X',
-    //     contentType: 'application/xml',
-    //     dataType: 'xml',
-    //     error: function(xhr, status, err) {
-    //         air.trace('There was an error: ' + xhr);
-    //         air.Introspector.Console.log(xhr);
-    //         if (xhr.status == 401) {
-    //             $('#messages').text('There was a problem with your Basecamp credentials.');
-    //             air.trace('Bad credentials');
-    //         }
-    //     } 
-    // });
-
-    // Just a simple request to check the users credentials and get their id
-    // $.get(, function(data) {
-    //     air.race('Response: ' + data);
-    //     userId = $(data).find('person > id').text();
-    //     air.trace('success!');
-    // });
 }
