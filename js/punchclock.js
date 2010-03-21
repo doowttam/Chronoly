@@ -95,6 +95,8 @@ function getTimeReports() {
         
         getTodayReport();
         getWeekReport();
+
+        getProjectList();
     });
 }
 
@@ -151,8 +153,6 @@ function verifyAndSaveSettings() {
     basecamp_url = $('#basecamp_url').val();
     base_url = 'https://' + basecamp_url + '.basecamphq.com';
 
-    var encodedPass = Base64.encode( api_token + ":X" );
-
     $.ajax({
         url: base_url + '/me.xml',
         success: function(data) {
@@ -172,4 +172,19 @@ function verifyAndSaveSettings() {
         }
     });
 
+}
+
+function getProjectList() {
+    air.trace('getProjectList');
+
+    $.get(base_url + '/projects.xml', function(data) {
+
+        $(data).find('project').each(function() {
+            if ( $(this).find('status').text() != 'active' )
+                return;
+
+            air.trace($(this).find('name').text() + " - " + $(this).find('id').text());
+        });
+
+    });
 }

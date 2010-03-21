@@ -14,21 +14,27 @@
   <body onLoad="init()">
 
     <!-- Splash Screen -->
-    <div id="splashScreen">
+    <div id="splashScreen" class="window">
       <h2>Punch Clock</h2>
       loading...
     </div>
     <!-- End Splash Screen -->
 
     <!-- Main window -->
-    <div id="mainWindow">
+    <div id="mainWindow" class="window">
 
       <a href="#" id="settings_link">Settings</a><br />
 
-      Time logged today:<span id="time_logged_today">loading...</span><br />
-      Time logged this week:<span id="time_logged_this_week">loading...</span><br />
-      Last log time:<span id="last_log_time">loading...</span><br />
-      <img class="loading" src="loading.gif" />
+      <div>
+        <h3>Time Reports</h3>
+        Time logged today:<span id="time_logged_today">loading...</span><br />
+        Time logged this week:<span id="time_logged_this_week">loading...</span><br />
+      </div>
+
+      <div>
+        <h3>Record Time</h3>
+        Project: <select id="project_select"></select>
+      </div>
 
     </div>
     <!-- End Main window -->
