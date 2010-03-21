@@ -179,7 +179,14 @@ function verifyAndSaveSettings() {
 function getToDoItems() {
     air.trace('getToDoList');
 
+    $('#item_select > option').remove();
+
+    if ($(this).val() == -1)
+        return;
+
     $.get(base_url + '/todo_lists/' + $(this).val() + '#{id}.xml', function(data) {
+
+        $('#item_select').append('<option value="-1">Select a task</option>');
 
         $(data).find('todo-items > todo-item').each(function() {
             // Skip items that have been completed
@@ -198,7 +205,15 @@ function getToDoItems() {
 function getToDoList() {
     air.trace('getToDoList');
 
+    $('#todo_list_select > option').remove();
+    $('#item_select > option').remove();
+
+    if ($(this).val() == -1)
+        return;
+
     $.get(base_url + '/projects/' + $(this).val() + '/todo_lists.xml?filter=pending', function(data) {
+
+        $('#todo_list_select').append('<option value="-1">Select a list</option>');
 
         $(data).find('todo-lists > todo-list').each(function() {
             // Skip lists that don't have time tracking turned on
@@ -220,6 +235,8 @@ function getProjectList() {
     air.trace('getProjectList');
 
     $.get(base_url + '/projects.xml', function(data) {
+
+        $('#project_select').append('<option value="-1">Select a project</option>');
 
         $(data).find('projects > project').each(function() {
             if ( $(this).children('status').text() != 'active' )
