@@ -252,3 +252,40 @@ function getProjectList() {
 
     });
 }
+
+function submitTime() {
+    var item_id = $('#item_select').val();
+    if (item_id == -1 || item_id == '')
+        return;
+    
+    var date = date_to_string(new Date());;
+    
+    var hours = $('#time_input').val();
+    // Currently just return, but really need to give
+    // the user a message. Also need validation that it's a number
+    if (hours == '')
+        return;
+
+    var description = $('#time_description').val();
+
+    // FIXME: do this with jQuery instead of making it with string concatination?
+    var xml = '<time-entry>'
+        + '<person-id>' + user_id + '</person-id>'
+        + '<date>' + date + '</date>'
+        + '<hours>' + hours + '</hours>'
+        + '<description>' + description + '</description>'
+        + '</time-entry>'
+
+
+    $.ajax({
+        url: base_url + '/todo_items/' +  item_id + '/time_entries.xml',
+        type: 'POST',
+        data: xml,
+        dataType: 'text',
+        success: function(data, textStatus) {
+            // FIXME: display a message somewhere
+            air.trace(textStatus);
+            getTimeReports();
+        }
+    });
+}
