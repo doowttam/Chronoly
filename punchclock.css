@@ -39,3 +39,7 @@
 .message {
     background-color: #fff79d;
 }
+
+select {
+    width: 300px;
+}

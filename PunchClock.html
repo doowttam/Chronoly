@@ -25,6 +25,8 @@
 
       <a href="#" id="settings_link">Settings</a><br />
 
+      <div id="main_msg" class="message"></div>
+
       <div>
         <h3>Time Reports</h3>
         Time logged today:<span id="time_logged_today">loading...</span><br />
@@ -37,7 +39,7 @@
         <div>List: <select id="todo_list_select"></select></div>
         <div>Item: <select id="item_select"></select></div>
         Time:<input id="time_input" size="5" type="text/" /> Note:<input id="time_description" type="text" /><br />
-        <button id="submitTime" onclick="submitTime()">Record Time</button>
+        <button id="submitTime" onclick="submitTime()">Record Time</button><span id="time_loading" class="loading">loading...</span>
       </div>
 
     </div>

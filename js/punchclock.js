@@ -253,6 +253,11 @@ function getProjectList() {
     });
 }
 
+function show_message(msg) {
+    $('#main_msg').text(msg);
+    setTimeout( function() { $('#main_msg').text(''); }, 5000 );
+}
+
 function submitTime() {
     var item_id = $('#item_select').val();
     if (item_id == -1 || item_id == '')
@@ -276,15 +281,17 @@ function submitTime() {
         + '<description>' + description + '</description>'
         + '</time-entry>'
 
-
+    $('#time_loading').css('display', 'block');
     $.ajax({
         url: base_url + '/todo_items/' +  item_id + '/time_entries.xml',
         type: 'POST',
         data: xml,
         dataType: 'text',
         success: function(data, textStatus) {
-            // FIXME: display a message somewhere
-            air.trace(textStatus);
+            show_message('Time successfully entered!');
+            $('#time_input').val('');
+            $('#time_description').val('');
+            $('#time_loading').css('display', 'none');
             getTimeReports();
         }
     });
