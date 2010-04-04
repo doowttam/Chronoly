@@ -50,14 +50,14 @@ function checkSettings() {
     var basecamp_url_bytes = air.EncryptedLocalStore.getItem("basecamp_url");
 
     // Pull user data out of store
-    if ( api_token_bytes !== undefined )
+    if ( api_token_bytes != null )
         api_token = api_token_bytes.toString();
-    if ( basecamp_url_bytes !== undefined ) {
+    if ( basecamp_url_bytes != null ) {
         basecamp_url = basecamp_url_bytes.toString();
         base_url = 'https://' + basecamp_url + '.basecamphq.com';
     }
 
-    if ( api_token === undefined || basecamp_url === undefined )
+    if ( api_token == '' || basecamp_url == '' )
         return 1;
     return 0;
 }
