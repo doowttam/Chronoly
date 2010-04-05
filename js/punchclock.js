@@ -169,6 +169,7 @@ function verifyAndSaveSettings() {
             user_id = $(data).find('person > id').text();
 
             hideSettings();
+            getTimeReports();
         }
     });
 
