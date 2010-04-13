@@ -2,6 +2,8 @@ var api_token = '';
 var basecamp_url = '';
 var base_url = '';
 var user_id;
+var timerId;
+var timeSpent = 0;
 
 function init() {
     air.trace('init');
@@ -261,7 +263,7 @@ function show_message(msg) {
 
 function submitTime() {
     var item_id = $('#item_select').val();
-    if (item_id == -1 || item_id == '')
+    if (item_id == -1 || item_id == null)
         return;
     
     var date = date_to_string(new Date());;
@@ -282,6 +284,7 @@ function submitTime() {
         + '<description>' + description + '</description>'
         + '</time-entry>'
 
+    resetTimer();
     $('#time_loading').css('display', 'block');
     $.ajax({
         url: base_url + '/todo_items/' +  item_id + '/time_entries.xml',
@@ -296,4 +299,19 @@ function submitTime() {
             getTimeReports();
         }
     });
+}
+
+function startTimer() {
+    var startTimeStamp = new Date().valueOf();
+    timerId = setInterval( function() {
+        var diff = ( new Date().valueOf() - startTimeStamp ) / 3600000;
+        timeSpent = diff.toFixed(1);
+        $('#time_input').val(timeSpent);
+    }, 360000 );
+    $('#timer_running').css('display', 'inline');
+}
+
+function resetTimer() {
+    clearInterval(timerId);
+    $('#timer_running').css('display', 'none');
 }

@@ -39,7 +39,10 @@
         <div>List: <select id="todo_list_select"></select></div>
         <div>Item: <select id="item_select"></select></div>
         Time:<input id="time_input" size="5" type="text/" /> Note:<input id="time_description" type="text" /><br />
-        <button id="submitTime" onclick="submitTime()">Record Time</button><span id="time_loading" class="loading">loading...</span>
+        <button id="startTimer" onclick="startTimer()">Start Timer</button>
+        <button id="submitTime" onclick="submitTime()">Record Time</button>
+        <span id="time_loading" class="loading">loading...</span>
+        <span id="timer_running" class="loading">timing...</span>
       </div>
 
     </div>
