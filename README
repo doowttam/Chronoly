@@ -1,0 +1,3 @@
+Chronoly is a time tracking tool for 37signals' Basecamp
+
+To use it you'll need a Basecamp account with time tracking enabled, your Basecamp url, and your api token. 
