@@ -1,5 +1,5 @@
 //
-// PunchClock.js
+// Chronoly.js
 //
 // Init and utility functions for the app
 //

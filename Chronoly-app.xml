@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <application xmlns="http://ns.adobe.com/air/application/1.5"> 
-    <id>com.sixmachines.punchclock</id> 
+    <id>com.sixmachines.chronoly</id> 
     <version>0.2</version> 
-    <filename>PunchClock</filename> 
+    <filename>Chronoly</filename> 
     <initialWindow> 
-        <content>PunchClock.html</content> 
+        <content>Chronoly.html</content> 
         <visible>true</visible> 
         <width>400</width> 
         <height>500</height> 
