@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <application xmlns="http://ns.adobe.com/air/application/1.5"> 
     <id>com.sixmachines.punchclock</id> 
-    <version>0.1</version> 
+    <version>0.2</version> 
     <filename>PunchClock</filename> 
     <initialWindow> 
         <content>PunchClock.html</content> 
