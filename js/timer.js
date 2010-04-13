@@ -1,3 +1,9 @@
+//
+// timer.js
+//
+// Functions are variables related to the timer
+//
+
 var timerId;
 var timeSpent = 0;
 var totalTimeSpent = 0;
