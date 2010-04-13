@@ -18,7 +18,7 @@ function getToDoItems() {
 
         $('#item_select').append('<option value="-1">Select a task</option>');
 
-        $(data).find('todo-items > todo-item').each(function() {
+        $(data).find('todo-items > todo-item').sort(byContent).each(function() {
             // Skip items that have been completed
             if ( $(this).children('completed').text() == 'true' )
                 return;
@@ -45,7 +45,7 @@ function getToDoList() {
 
         $('#todo_list_select').append('<option value="-1">Select a list</option>');
 
-        $(data).find('todo-lists > todo-list').each(function() {
+        $(data).find('todo-lists > todo-list').sort(byName).each(function() {
             // Skip lists that don't have time tracking turned on
             if ( $(this).children('tracked').text() != 'true' )
                 return;
@@ -68,7 +68,7 @@ function getProjectList() {
 
         $('#project_select').append('<option value="-1">Select a project</option>');
 
-        $(data).find('projects > project').each(function() {
+        $(data).find('projects > project').sort(byName).each(function() {
             if ( $(this).children('status').text() != 'active' )
                 return;
 
@@ -81,6 +81,26 @@ function getProjectList() {
         $('#project_select').change(getToDoList);
 
     });
+}
+
+function byName(a, b) {
+    if ( $(a).children('name').text() < $(b).children('name').text() ) {
+        return -1;
+    } else if ( $(a).children('name').text() == $(b).children('name').text() ) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+function byContent(a, b) {
+    if ( $(a).children('content').text() < $(b).children('content').text() ) {
+        return -1;
+    } else if ( $(a).children('content').text() == $(b).children('content').text() ) {
+        return 0;
+    } else {
+        return 1;
+    }
 }
 
 function submitTime() {
