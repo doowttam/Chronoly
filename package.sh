@@ -2,4 +2,4 @@
 
 # Password for testCert.pfx is test
 
-adt -package -storetype pkcs12 -keystore testCert.pfx Chronoly.air Chronoly-app.xml Chronoly.html chronoly.css js
+adt -package -storetype pkcs12 -keystore testCert.pfx Chronoly.air Chronoly-app.xml Chronoly.html chronoly.css loading.gif js
