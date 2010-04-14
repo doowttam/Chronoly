@@ -20,8 +20,6 @@ function toggleTimer() {
 function startTimer() {
     $('#startTimer').text('Pause Timer');
     $('#stopTimer').attr('disabled', null);
-    $('#timer_running').text('timing...');
-    $('#timer_running').css('display', 'inline');
     window.document.title = 'Chronoly (Timer Running)';
 
     timerRunning = 1;
@@ -36,7 +34,6 @@ function startTimer() {
 
 function pauseTimer() {
     $('#startTimer').text('Start Timer');
-    $('#timer_running').text('paused...');
     window.document.title = 'Chronoly (Timer Paused)';
 
     timerRunning = 0;
@@ -46,7 +43,6 @@ function pauseTimer() {
 
 function resetTimer() {
     $('#startTimer').text('Start Timer');
-    $('#timer_running').css('display', 'none');
     $('#stopTimer').attr('disabled', 'true');
     window.document.title = 'Chronoly';
 

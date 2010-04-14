@@ -127,7 +127,6 @@ function submitTime() {
         + '</time-entry>'
 
     resetTimer();
-    $('#time_loading').css('display', 'block');
     $.ajax({
         url: base_url + '/todo_items/' +  item_id + '/time_entries.xml',
         type: 'POST',
@@ -137,7 +136,6 @@ function submitTime() {
             show_message('Time successfully entered!');
             $('#time_input').val('');
             $('#time_description').val('');
-            $('#time_loading').css('display', 'none');
             getTimeReports();
         }
     });

@@ -134,5 +134,9 @@ function verifyAndSaveSettings() {
 
 function show_message(msg) {
     $('#main_msg').text(msg);
-    setTimeout( function() { $('#main_msg').text(''); }, 5000 );
+    $('#main_msg').css('visibility', 'visible');
+    setTimeout( function() { 
+    $('#main_msg').css('visibility', 'hidden');
+        $('#main_msg').text(''); 
+    }, 5000 );
 }

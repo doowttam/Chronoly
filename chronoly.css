@@ -1,3 +1,7 @@
+body {
+    background-color: #4d4d4d;
+}
+
 #mainWindow {
     display: none;
 }
@@ -36,10 +40,58 @@
     font-size: .75em;
 }
 
+.section {
+    margin-top: 10px;
+    background-color: white;
+    -webkit-border-radius: 5px;
+    border: 2px solid #f0821c;
+}
+
+.section_content > div {
+    margin: 5px 0px;
+}
+
+.section_content {
+    padding: 5px;
+}
+
+#settings_link {
+    color: #f0821c;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#settings_link_container {
+    width: 25%;
+    float: right;
+}
+
+#menu_bar {
+    margin-top: 10px;
+    height: 30px;
+}
+
+#main_msg {
+    height: 25px;
+    padding: 0px 5px;
+    -webkit-border-radius: 5px;
+    visibility: hidden;
+}
+
 .message {
     background-color: #fff79d;
 }
 
 select {
-    width: 300px;
+    width: 275px;
+}
+
+.select_label {
+    display: inline-block;
+    width: 75px;
+}
+
+.section > h3 {
+    margin-top: 0px;
+    background-color: #f0821c;
 }

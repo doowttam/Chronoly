@@ -26,32 +26,36 @@
     <!-- Main window -->
     <div id="mainWindow" class="window">
 
-      <a href="#" id="settings_link">Settings</a><br />
-
       <div id="main_msg" class="message"></div>
 
-      <div>
+      <div class="section">
         <h3>Time Reports</h3>
-        Time logged today:<span id="time_logged_today">loading...</span><br />
-        Time logged this week:<span id="time_logged_this_week">loading...</span><br />
+        <div class="section_content">
+          Time logged today:<span id="time_logged_today"></span><br />
+          Time logged this week:<span id="time_logged_this_week"></span><br />
+        </div>
       </div>
 
-      <div>
+      <div class="section">
         <h3>Record Time</h3>
-        Project: <select id="project_select" disabled="disabled"></select>
-        <div>List: <select id="todo_list_select" disabled="disabled"></select></div>
-        <div>Item: <select id="item_select" disabled="disabled"></select></div>
-
-        <div>
-          Time:<input id="time_input" size="5" type="text/" /> 
-          <button id="startTimer" onclick="toggleTimer()">Start Timer</button>
-          <button id="stopTimer" onclick="resetTimer()" disabled="disabled">Stop Timer</button>
-          <span id="timer_running" class="loading">timing...</span>
+        <div class="section_content">
+          <div><span class="select_label">Project: </span><select id="project_select" disabled="disabled"></select></div>
+          <div><span class="select_label">List: </span><select id="todo_list_select" disabled="disabled"></select></div>
+          <div><span class="select_label">Item: </span><select id="item_select" disabled="disabled"></select></div>
+          
+          <div>
+            Time:<input id="time_input" size="5" type="text/" /> 
+            <button id="startTimer" onclick="toggleTimer()">Start Timer</button>
+            <button id="stopTimer" onclick="resetTimer()" disabled="disabled">Stop Timer</button>
+          </div>
+          
+          <div>Note:<input id="time_description" type="text" /></div>
+          <button id="submitTime" onclick="submitTime()">Record Time</button>
         </div>
+      </div>
 
-        Note:<input id="time_description" type="text" /><br />
-        <button id="submitTime" onclick="submitTime()">Record Time</button>
-        <span id="time_loading" class="loading">loading...</span>
+      <div id="menu_bar">
+        <div id="settings_link_container"><a href="#" id="settings_link">Settings</a></div>
       </div>
 
     </div>
