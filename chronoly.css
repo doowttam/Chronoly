@@ -2,6 +2,11 @@ body {
     background-color: #4d4d4d;
 }
 
+#splashScreen {
+    text-align: center;
+    color: #f0821c;
+}
+
 #mainWindow {
     display: none;
 }
