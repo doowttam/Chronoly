@@ -47,19 +47,23 @@ function init() {
         // If we didn't pull any data out of the store give them the settings screen
         showSettings();
     } else {
-        // Get their user id from Basecamp. We could cache this, but this request on
-        // start up is an oppertunity to test their credentials and make sure
-        // everything is in working order.
-        $.get( base_url + '/me.xml', function(data) {
-            user_id = $(data).find('person > id').text();
-
-            $('#splashScreen').css('display', 'none');
-            $('#mainWindow').css('display', 'block');
-
-            getTimeReports();
-            getProjectList();
-        });
+        initialRequest();
     }
+}
+
+function initialRequest() {
+    // Get their user id from Basecamp. We could cache this, but this request on
+    // start up is an oppertunity to test their credentials and make sure
+    // everything is in working order.
+    $.get( base_url + '/me.xml', function(data) {
+        user_id = $(data).find('person > id').text();
+        
+        $('#splashScreen').css('display', 'none');
+        $('#mainWindow').css('display', 'block');
+        
+        getTimeReports();
+        getProjectList();
+    });
 }
 
 function checkSettings() {
@@ -127,7 +131,7 @@ function verifyAndSaveSettings() {
             user_id = $(data).find('person > id').text();
 
             hideSettings();
-            getTimeReports();
+            initialRequest();
         }
     });
 
