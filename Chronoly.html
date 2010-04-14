@@ -41,16 +41,17 @@
         Project: <select id="project_select"></select>
         <div>List: <select id="todo_list_select"></select></div>
         <div>Item: <select id="item_select"></select></div>
-        Time:<input id="time_input" size="5" type="text/" /> Note:<input id="time_description" type="text" /><br />
+
+        <div>
+          Time:<input id="time_input" size="5" type="text/" /> 
+          <button id="startTimer" onclick="toggleTimer()">Start Timer</button>
+          <button id="stopTimer" onclick="resetTimer()" disabled="disabled">Stop Timer</button>
+          <span id="timer_running" class="loading">timing...</span>
+        </div>
+
+        Note:<input id="time_description" type="text" /><br />
         <button id="submitTime" onclick="submitTime()">Record Time</button>
         <span id="time_loading" class="loading">loading...</span>
-      </div>
-
-      <div>
-        <h3>Timer</h3>
-        <button id="startTimer" onclick="toggleTimer()">Start Timer</button>
-        <button id="stopTimer" onclick="resetTimer()" disabled="disabled">Stop Timer</button>
-        <span id="timer_running" class="loading">timing...</span>
       </div>
 
     </div>
