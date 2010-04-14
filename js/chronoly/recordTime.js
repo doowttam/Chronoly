@@ -7,8 +7,6 @@
 // This information could be cached locally when
 // we get the todo lists, should check that out next
 function getToDoItems() {
-    air.trace('getToDoList');
-
     $('#item_select > option').remove();
 
     if ($(this).val() == -1)
@@ -33,8 +31,6 @@ function getToDoItems() {
 }
 
 function getToDoList() {
-    air.trace('getToDoList');
-
     $('#todo_list_select > option').remove();
     $('#item_select > option').remove();
 
@@ -62,8 +58,6 @@ function getToDoList() {
 }
 
 function getProjectList() {
-    air.trace('getProjectList');
-
     $.get(base_url + '/projects.xml', function(data) {
 
         $('#project_select').append('<option value="-1">Select a project</option>');

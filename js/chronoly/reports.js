@@ -5,28 +5,11 @@
 //
 
 function getTimeReports() {
-    air.trace('getUserId');
-
-    // Get their user id from Basecamp. We could cache this, but this request on
-    // start up is an oppertunity to test their credentials and make sure
-    // everything is in working order.
-    $.get( base_url + '/me.xml', function(data) {
-        user_id = $(data).find('person > id').text();
-        air.trace('user_id: ' + user_id);
-
-        $('#splashScreen').css('display', 'none');
-        $('#mainWindow').css('display', 'block');
-        
-        getTodayReport();
-        getWeekReport();
-
-        getProjectList();
-    });
+    getTodayReport();
+    getWeekReport();
 }
 
 function getReport(report_id, report_param_string) {
-    air.trace('getReport: ' + report_param_string);
-    
     $.get(base_url + '/time_entries/report.xml' + report_param_string, function(data) {
         var total = 0;
         $(data).find('time-entry > hours').each(function() {
@@ -37,9 +20,6 @@ function getReport(report_id, report_param_string) {
 }
 
 function getTodayReport() {
-    
-    air.trace('getTodayReport');
-
     var now_string = date_to_string(new Date());
     var report_param_string = '?subject_id=' + user_id + '&from=' + now_string + '&to=' + now_string;
 
@@ -47,7 +27,6 @@ function getTodayReport() {
 }
 
 function getWeekReport() {
-
     var date = new Date();
     var now_string = date_to_string(date);
     date.setDate(date.getDate() - date.getDay());

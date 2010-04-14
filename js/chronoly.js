@@ -46,12 +46,22 @@ function init() {
         // If we didn't pull any data out of the store give them the settings screen
         showSettings();
     } else {
-        getTimeReports();
+        // Get their user id from Basecamp. We could cache this, but this request on
+        // start up is an oppertunity to test their credentials and make sure
+        // everything is in working order.
+        $.get( base_url + '/me.xml', function(data) {
+            user_id = $(data).find('person > id').text();
+
+            $('#splashScreen').css('display', 'none');
+            $('#mainWindow').css('display', 'block');
+
+            getTimeReports();
+            getProjectList();
+        });
     }
 }
 
 function checkSettings() {
-    air.trace('checkSettings');
     var api_token_bytes = air.EncryptedLocalStore.getItem("api_token");
     var basecamp_url_bytes = air.EncryptedLocalStore.getItem("basecamp_url");
 
@@ -69,8 +79,6 @@ function checkSettings() {
 }
 
 function showSettings(msg) {
-    air.trace('Show Settings');
-
     // Hack because the onclick eventhandlers pass in 
     // the event object as a parameter.
     if ( typeof msg != 'string' )
@@ -100,8 +108,6 @@ function date_to_string (date) {
 }
 
 function verifyAndSaveSettings() {
-    air.trace('verifyAndSaveSettings');
-
     api_token = $('#api_token').val();
     basecamp_url = $('#basecamp_url').val();
     base_url = 'https://' + basecamp_url + '.basecamphq.com';
@@ -109,8 +115,6 @@ function verifyAndSaveSettings() {
     $.ajax({
         url: base_url + '/me.xml',
         success: function(data) {
-
-            air.trace('Success: Storing user data in store.');
             var bytes = new air.ByteArray(); 
             bytes.writeUTFBytes(api_token); 
             air.EncryptedLocalStore.setItem("api_token", bytes);
