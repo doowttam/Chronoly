@@ -8,6 +8,7 @@
 // we get the todo lists, should check that out next
 function getToDoItems() {
     $('#item_select > option').remove();
+    $('#item_select').attr('disabled', 'disabled');
 
     if ($(this).val() == -1)
         return;
@@ -25,6 +26,7 @@ function getToDoItems() {
             var todo_item_content = $(this).children('content').text();
 
             $('#item_select').append('<option value="' + todo_item_id + '">' + todo_item_content + '</option>');
+            $('#item_select').attr('disabled', null);
         });
 
     });
@@ -33,6 +35,8 @@ function getToDoItems() {
 function getToDoList() {
     $('#todo_list_select > option').remove();
     $('#item_select > option').remove();
+    $('#todo_list_select').attr('disabled', 'disabled');
+    $('#item_select').attr('disabled', 'disabled');
 
     if ($(this).val() == -1)
         return;
@@ -53,6 +57,7 @@ function getToDoList() {
         });
 
         $('#todo_list_select').change(getToDoItems);
+        $('#todo_list_select').attr('disabled', null);
 
     });
 }
@@ -73,6 +78,7 @@ function getProjectList() {
         });
 
         $('#project_select').change(getToDoList);
+        $('#project_select').attr('disabled', null);
 
     });
 }
