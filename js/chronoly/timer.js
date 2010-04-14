@@ -19,27 +19,38 @@ function toggleTimer() {
 
 function startTimer() {
     $('#startTimer').text('Pause Timer');
+    $('#stopTimer').attr('disabled', null);
+    $('#timer_running').text('timing...');
+    $('#timer_running').css('display', 'inline');
+    window.document.title = 'Chronoly (Timer Running)';
+
     timerRunning = 1;
+    $('#time_input').val(0.0);
     var startTimeStamp = new Date().valueOf();
     timerId = setInterval( function() {
         var diff = ( new Date().valueOf() - startTimeStamp ) / 3600000;
         timeSpent = diff.toFixed(1);
         $('#time_input').val(timeSpent + totalTimeSpent);
     }, 360000 );
-    $('#timer_running').css('display', 'inline');
 }
 
 function pauseTimer() {
+    $('#startTimer').text('Start Timer');
+    $('#timer_running').text('paused...');
+    window.document.title = 'Chronoly (Timer Paused)';
+
     timerRunning = 0;
     clearInterval(timerId);
     totalTimeSpent = timeSpent + totalTimeSpent;
-    $('#startTimer').text('Start Timer');
-    $('#timer_running').css('display', 'none');
 }
 
 function resetTimer() {
-    clearInterval(timerId);
     $('#startTimer').text('Start Timer');
     $('#timer_running').css('display', 'none');
+    $('#stopTimer').attr('disabled', 'true');
+    window.document.title = 'Chronoly';
+
+    timerRunning = 0;
+    clearInterval(timerId);
     totalTimeSpent = 0;
 }
