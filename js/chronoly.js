@@ -28,6 +28,7 @@ function init() {
         },
         error: function(xhr, status_text, err) {
             air.trace('Error: ' + status_text);
+            hideLoading();
             if ( status_text.match('timeout') || xhr.status == 404 ) {
                 showSettings('There was a problem accessing Basecamp. Check your Basecamp url and try again.');
             } else if (xhr.status == 401) {
@@ -134,9 +135,17 @@ function verifyAndSaveSettings() {
 
 function show_message(msg) {
     $('#main_msg').text(msg);
-    $('#main_msg').css('visibility', 'visible');
+    $('#main_msg').css('display', 'block');
     setTimeout( function() { 
-    $('#main_msg').css('visibility', 'hidden');
+    $('#main_msg').css('display', 'none');
         $('#main_msg').text(''); 
     }, 5000 );
+}
+
+function showLoading() {
+    $('#loading').css('display', 'block');
+}
+
+function hideLoading() {
+    $('#loading').css('display', 'none');
 }

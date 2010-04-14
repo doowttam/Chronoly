@@ -13,7 +13,9 @@ function getToDoItems() {
     if ($(this).val() == -1)
         return;
 
+    showLoading();
     $.get(base_url + '/todo_lists/' + $(this).val() + '#{id}.xml', function(data) {
+        hideLoading();
 
         $('#item_select').append('<option value="-1">Select a task</option>');
 
@@ -41,7 +43,9 @@ function getToDoList() {
     if ($(this).val() == -1)
         return;
 
+    showLoading();
     $.get(base_url + '/projects/' + $(this).val() + '/todo_lists.xml?filter=pending', function(data) {
+        hideLoading();
 
         $('#todo_list_select').append('<option value="-1">Select a list</option>');
 
@@ -63,7 +67,9 @@ function getToDoList() {
 }
 
 function getProjectList() {
+    showLoading();
     $.get(base_url + '/projects.xml', function(data) {
+        hideLoading();
 
         $('#project_select').append('<option value="-1">Select a project</option>');
 
@@ -127,14 +133,16 @@ function submitTime() {
         + '</time-entry>'
 
     resetTimer();
+    showLoading();
     $.ajax({
         url: base_url + '/todo_items/' +  item_id + '/time_entries.xml',
         type: 'POST',
         data: xml,
         dataType: 'text',
         success: function(data, textStatus) {
+            hideLoading();
             show_message('Time successfully entered!');
-            $('#time_input').val('');
+            $('#time_input').val(0);
             $('#time_description').val('');
             getTimeReports();
         }

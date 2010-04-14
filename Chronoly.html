@@ -26,7 +26,10 @@
     <!-- Main window -->
     <div id="mainWindow" class="window">
 
-      <div id="main_msg" class="message"></div>
+      <div id="status_bar">
+        <div id="main_msg" class="message"></div>
+        <div id="loading" style="display: none"><img src="loading.gif" /></div>
+      </div>
 
       <div class="section">
         <h3>Time Reports</h3>
@@ -44,9 +47,9 @@
           <div><span class="select_label">Item: </span><select id="item_select" disabled="disabled"></select></div>
           
           <div>
-            Time:<input id="time_input" size="5" type="text/" /> 
-            <button id="startTimer" onclick="toggleTimer()">Start Timer</button>
-            <button id="stopTimer" onclick="resetTimer()" disabled="disabled">Stop Timer</button>
+            Time:<input id="time_input" size="5" type="text/" value="0"/> 
+            <button id="startTimer" onclick="toggleTimer()">Start</button>
+            <button id="stopTimer" onclick="resetTimer()" disabled="disabled">Stop</button>
           </div>
           
           <div>Note:<input id="time_description" type="text" /></div>

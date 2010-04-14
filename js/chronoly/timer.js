@@ -18,12 +18,12 @@ function toggleTimer() {
 }
 
 function startTimer() {
-    $('#startTimer').text('Pause Timer');
+    $('#startTimer').text('Pause');
     $('#stopTimer').attr('disabled', null);
     window.document.title = 'Chronoly (Timer Running)';
 
     timerRunning = 1;
-    $('#time_input').val(0.0);
+    $('#time_input').val(0);
     var startTimeStamp = new Date().valueOf();
     timerId = setInterval( function() {
         var diff = ( new Date().valueOf() - startTimeStamp ) / 3600000;
@@ -33,7 +33,7 @@ function startTimer() {
 }
 
 function pauseTimer() {
-    $('#startTimer').text('Start Timer');
+    $('#startTimer').text('Start');
     window.document.title = 'Chronoly (Timer Paused)';
 
     timerRunning = 0;
@@ -42,7 +42,7 @@ function pauseTimer() {
 }
 
 function resetTimer() {
-    $('#startTimer').text('Start Timer');
+    $('#startTimer').text('Start');
     $('#stopTimer').attr('disabled', 'true');
     window.document.title = 'Chronoly';
 

@@ -72,10 +72,14 @@ body {
 }
 
 #main_msg {
-    height: 25px;
     padding: 0px 5px;
     -webkit-border-radius: 5px;
-    visibility: hidden;
+    display: none;
+}
+
+#status_bar {
+    height: 25px;
+    text-align: center;
 }
 
 .message {
