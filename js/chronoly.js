@@ -14,6 +14,8 @@ function init() {
 
     window.htmlLoader.authenticate = false;  
 
+    setUpUpdater();
+
     // Add onClick handlers
     document.getElementById('settings_link').addEventListener("click", showSettings);
     document.getElementById('close_settings_link').addEventListener("click", hideSettings);
@@ -49,6 +51,12 @@ function init() {
     } else {
         initialRequest();
     }
+}
+
+function setUpUpdater() {
+    var appUpdater = new runtime.air.update.ApplicationUpdaterUI(); 
+    appUpdater.configurationFile = new air.File("app:/updateConfig.xml"); 
+    appUpdater.initialize();
 }
 
 function initialRequest() {
