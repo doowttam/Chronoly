@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
   <version>0.3.2</version> 
-  <url>http://doowttam.github.com/Chronoly.air</url> 
+  <url>http://doowttam.github.com/Chronoly/Chronoly.air</url> 
   <description>This is the latest version of Chronoly.</description> 
 </update>
