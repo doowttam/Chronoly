@@ -47,11 +47,3 @@ function stopTimer() {
 function getTimeSpent() {
     return parseFloat($('#time_input').val());
 }
-
-function msToHours(ms) {
-    return ms / 3600000;
-}
-
-function hoursToMS(hours) {
-    return hours * 3600000;
-}

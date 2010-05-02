@@ -51,6 +51,10 @@ function init() {
     } else {
         initialRequest();
     }
+
+    // Periodically get new time reports (just in case time was added through the
+    // Basecamp ui
+    setInterval( getTimeReports, hoursToMS(0.5) );
 }
 
 function setUpUpdater() {
@@ -160,4 +164,12 @@ function showLoading() {
 
 function hideLoading() {
     $('#loading').css('display', 'none');
+}
+
+function msToHours(ms) {
+    return ms / 3600000;
+}
+
+function hoursToMS(hours) {
+    return hours * 3600000;
 }
