@@ -15,6 +15,7 @@ function startTimer() {
     $('#stopTimer').attr('disabled', null);
     window.document.title = 'Chronoly (Timer Running)';
     $('#time_input').attr('disabled', 'true');
+    $('#timerGraphic').css('display', 'inline');
 
     // To have the timer round up we add 0.1 to the input box
     // every time we start the timer. So, any time spent is considered
@@ -38,6 +39,7 @@ function stopTimer() {
     $('#startTimer').attr('disabled', null);
     window.document.title = 'Chronoly';
     $('#time_input').attr('disabled', null);
+    $('#timerGraphic').css('display', 'none');
 
     clearInterval(timerId);
 }
