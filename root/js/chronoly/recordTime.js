@@ -132,7 +132,7 @@ function submitTime() {
         + '<description>' + description + '</description>'
         + '</time-entry>'
 
-    resetTimer();
+    stopTimer();
     showLoading();
     $.ajax({
         url: base_url + '/todo_items/' +  item_id + '/time_entries.xml',

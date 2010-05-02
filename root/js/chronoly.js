@@ -59,7 +59,7 @@ function init() {
 
 function setUpUpdater() {
     var appUpdater = new runtime.air.update.ApplicationUpdaterUI(); 
-    appUpdater.configurationFile = new air.File("app:/updateConfig.xml"); 
+    appUpdater.configurationFile = new air.File("app:/updateFramework/updateConfig.xml"); 
     appUpdater.initialize();
 }
 

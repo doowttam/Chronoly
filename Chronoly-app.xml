@@ -4,7 +4,7 @@
     <version>0.3.2</version> 
     <filename>Chronoly</filename> 
     <initialWindow> 
-        <content>Chronoly.html</content> 
+        <content>root/Chronoly.html</content> 
         <visible>true</visible> 
         <width>400</width> 
         <height>500</height> 
