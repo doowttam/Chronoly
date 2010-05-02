@@ -21,6 +21,7 @@ function startTimer() {
     $('#startTimer').text('Pause');
     $('#stopTimer').attr('disabled', null);
     window.document.title = 'Chronoly (Timer Running)';
+    $('#time_input').attr('disabled', 'true');
 
     timerRunning = 1;
     $('#time_input').val(0);
@@ -35,6 +36,7 @@ function startTimer() {
 function pauseTimer() {
     $('#startTimer').text('Start');
     window.document.title = 'Chronoly (Timer Paused)';
+    $('#time_input').attr('disabled', null);
 
     timerRunning = 0;
     clearInterval(timerId);
@@ -45,6 +47,7 @@ function resetTimer() {
     $('#startTimer').text('Start');
     $('#stopTimer').attr('disabled', 'true');
     window.document.title = 'Chronoly';
+    $('#time_input').attr('disabled', null);
 
     timerRunning = 0;
     clearInterval(timerId);
