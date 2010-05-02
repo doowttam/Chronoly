@@ -8,6 +8,14 @@
 // This allows the user to make changes if they started the timer too early/late
 // and not have the timer discard those changes.
 
+// Check for dependencies
+if ( typeof hoursToMS == 'undefined' ) {
+    // utility function in chronoly.js
+    air.Introspector.Console.error('Missing hoursToMS function');
+}
+
+// Holds the id for the setInterval handle so it can be 
+// cleared when we want to stop the timer
 var timerId;
 
 function startTimer() {
