@@ -3,53 +3,53 @@
 //
 // Functions are variables related to the timer
 //
+// The time spent is recorded only in the #time_input text box and not in any
+// local variable.
+// This allows the user to make changes if they started the timer too early/late
+// and not have the timer discard those changes.
 
 var timerId;
-var timeSpent = 0;
-var totalTimeSpent = 0;
-var timerRunning = 0;
-
-function toggleTimer() {
-    if (timerRunning == 1) {
-        pauseTimer();
-    } else {
-        startTimer();
-    }
-}
 
 function startTimer() {
-    $('#startTimer').text('Pause');
+    $('#startTimer').attr('disabled', 'true');
     $('#stopTimer').attr('disabled', null);
     window.document.title = 'Chronoly (Timer Running)';
     $('#time_input').attr('disabled', 'true');
 
-    timerRunning = 1;
-    $('#time_input').val(0);
-    var startTimeStamp = new Date().valueOf();
-    timerId = setInterval( function() {
-        var diff = ( new Date().valueOf() - startTimeStamp ) / 3600000;
-        timeSpent = diff.toFixed(1);
-        $('#time_input').val(timeSpent + totalTimeSpent);
-    }, 360000 );
+    // To have the timer round up we add 0.1 to the input box
+    // every time we start the timer. So, any time spent is considered
+    // to be at least 6 minutes.
+    incrementTimer();
+
+    timerId = setInterval( incrementTimer, hoursToMS(0.1) );
 }
 
-function pauseTimer() {
-    $('#startTimer').text('Start');
-    window.document.title = 'Chronoly (Timer Paused)';
-    $('#time_input').attr('disabled', null);
-
-    timerRunning = 0;
-    clearInterval(timerId);
-    totalTimeSpent = timeSpent + totalTimeSpent;
+function incrementTimer() {
+    if ( $('#time_input').val() == '' ) {
+        $('#time_input').val(0.1)
+    } else {
+        var newTime = getTimeSpent() + 0.1;
+        $('#time_input').val(newTime.toFixed(1));
+    }
 }
 
-function resetTimer() {
-    $('#startTimer').text('Start');
+function stopTimer() {
     $('#stopTimer').attr('disabled', 'true');
+    $('#startTimer').attr('disabled', null);
     window.document.title = 'Chronoly';
     $('#time_input').attr('disabled', null);
 
-    timerRunning = 0;
     clearInterval(timerId);
-    totalTimeSpent = 0;
+}
+
+function getTimeSpent() {
+    return parseFloat($('#time_input').val());
+}
+
+function msToHours(ms) {
+    return ms / 3600000;
+}
+
+function hoursToMS(hours) {
+    return hours * 3600000;
 }
