@@ -6,7 +6,7 @@
     <initialWindow> 
         <content>root/Chronoly.html</content> 
         <visible>true</visible> 
-        <width>415</width> 
-        <height>500</height> 
+        <width>400</width> 
+        <height>515</height> 
     </initialWindow> 
 </application>
