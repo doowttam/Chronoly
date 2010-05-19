@@ -18,6 +18,8 @@ function init() {
 
     // Add onClick handlers
     document.getElementById('settings_link').addEventListener("click", showSettings);
+    document.getElementById('about_link').addEventListener("click", showAbout);
+    document.getElementById('help_link').addEventListener("click", showHelp);
     document.getElementById('close_settings_link').addEventListener("click", hideSettings);
 
     // Set up the defaults for ajax
@@ -173,3 +175,12 @@ function msToHours(ms) {
 function hoursToMS(hours) {
     return hours * 3600000;
 }
+
+function showHelp() {
+    window.open("/root/help.html", "helpWindow", "height=400, width=400, top=10, left=10");
+}
+
+function showAbout() {
+    window.open("/root/about.html", "aboutWindow", "height=400, width=400, top=10, left=10");
+}
+

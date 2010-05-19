@@ -61,20 +61,20 @@ body {
     padding: 5px;
 }
 
-#settings_link {
-    color: #f0821c;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-#settings_link_container {
-    width: 25%;
+#menu_bar {
     float: right;
 }
 
-#menu_bar {
-    margin-top: 10px;
-    height: 30px;
+#menu_bar li {
+    list-style: none;
+    display: inline;
+    margin-right: 10px;
+}
+
+#menu_bar a {
+    color: #f0821c;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 #main_msg {
