@@ -108,3 +108,7 @@ select {
     margin-top: 0px;
     background-color: #f0821c;
 }
+
+.center {
+    text-align: center;
+}

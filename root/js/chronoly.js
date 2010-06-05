@@ -178,17 +178,17 @@ function hoursToMS(hours) {
 }
 
 function showHelp() {
-    openWindow("/root/help.html");
+    openWindow("/root/help.html", 500, 400);
 }
 
 function showAbout() {
-    openWindow("/root/about.html");
+    openWindow("/root/about.html", 320, 200);
 }
 
-function openWindow(path) {
+function openWindow(path, height, width) {
     var options = new air.NativeWindowInitOptions(); 
  
-    var windowBounds = new air.Rectangle(200,250,500,400); 
+    var windowBounds = new air.Rectangle(200,250,height,width); 
     newHTMLLoader = air.HTMLLoader.createRootWindow(true, options, true, windowBounds); 
     newHTMLLoader.load(new air.URLRequest(path));
 }
