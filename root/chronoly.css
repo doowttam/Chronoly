@@ -24,12 +24,12 @@ body {
     border: 2px solid #f0821c;
 }
 
-.section-content > div {
-    margin: 5px 0px;
-}
-
 .section-content {
     padding: 5px;
+}
+
+.section-content > div {
+    margin: 5px 0px;
 }
 
 .loading {

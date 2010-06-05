@@ -115,7 +115,7 @@ function hideSettings() {
 }
 
 // Convert a date to YYYYMMDD format
-function date_to_string (date) {
+function dateToString (date) {
     var year = date.getFullYear().toString();
     var month = date.getMonth() + 1;
     if ( month < 10 )
@@ -152,7 +152,7 @@ function verifyAndSaveSettings() {
 
 }
 
-function show_message(msg) {
+function showMessage(msg) {
     $('#main-msg').text(msg);
     $('#main-msg').css('display', 'block');
     setTimeout( function() { 

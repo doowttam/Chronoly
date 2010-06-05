@@ -114,7 +114,7 @@ function submitTime() {
     if (item_id == -1 || item_id == null)
         return;
     
-    var date = date_to_string(new Date());;
+    var date = dateToString(new Date());
     
     var hours = $('#time_input').val();
     // Currently just return, but really need to give
@@ -141,7 +141,7 @@ function submitTime() {
         dataType: 'text',
         success: function(data, textStatus) {
             hideLoading();
-            show_message('Time successfully entered!');
+            showMessage('Time successfully entered!');
             $('#time_input').val(0);
             $('#time_description').val('');
             getTimeReports();
