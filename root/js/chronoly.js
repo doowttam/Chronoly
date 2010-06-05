@@ -182,7 +182,7 @@ function showHelp() {
 }
 
 function showAbout() {
-    openWindow("/root/about.html", 320, 200);
+    openWindow("/root/about.html", 320, 210);
 }
 
 function openWindow(path, height, width) {
