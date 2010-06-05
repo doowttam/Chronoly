@@ -1,5 +1,6 @@
 body {
     background-color: #4d4d4d;
+    color: #f0821c;
 }
 
 #splashScreen {
@@ -15,12 +16,29 @@ body {
     padding: 10px;
 }
 
+.section {
+    color: black;
+    margin-top: 10px;
+    background-color: white;
+    -webkit-border-radius: 5px;
+    border: 2px solid #f0821c;
+}
+
+.section_content > div {
+    margin: 5px 0px;
+}
+
+.section_content {
+    padding: 5px;
+}
+
 .loading {
     display: none;
 }
 
 .settings {
     display: none;
+    color: black;
 }
 
 #settingsMask {
@@ -44,21 +62,6 @@ body {
     border: 1px solid black;
     padding: 20px;
     font-size: .75em;
-}
-
-.section {
-    margin-top: 10px;
-    background-color: white;
-    -webkit-border-radius: 5px;
-    border: 2px solid #f0821c;
-}
-
-.section_content > div {
-    margin: 5px 0px;
-}
-
-.section_content {
-    padding: 5px;
 }
 
 #menu_bar {

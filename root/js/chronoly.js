@@ -13,13 +13,14 @@ function init() {
     air.trace('init');
 
     window.htmlLoader.authenticate = false;  
-
+	window.nativeWindow.addEventListener(air.Event.CLOSING, closeAllWindows);
     setUpUpdater();
 
     // Add onClick handlers
     document.getElementById('settings_link').addEventListener("click", showSettings);
     document.getElementById('about_link').addEventListener("click", showAbout);
     document.getElementById('help_link').addEventListener("click", showHelp);
+    document.getElementById('settings_help_link').addEventListener("click", showHelp);
     document.getElementById('close_settings_link').addEventListener("click", hideSettings);
 
     // Set up the defaults for ajax
@@ -177,10 +178,23 @@ function hoursToMS(hours) {
 }
 
 function showHelp() {
-    window.open("/root/help.html", "helpWindow", "height=400, width=400, top=10, left=10");
+    openWindow("/root/help.html");
 }
 
 function showAbout() {
-    window.open("/root/about.html", "aboutWindow", "height=400, width=400, top=10, left=10");
+    openWindow("/root/about.html");
 }
 
+function openWindow(path) {
+    var options = new air.NativeWindowInitOptions(); 
+ 
+    var windowBounds = new air.Rectangle(200,250,500,400); 
+    newHTMLLoader = air.HTMLLoader.createRootWindow(true, options, true, windowBounds); 
+    newHTMLLoader.load(new air.URLRequest(path));
+}
+
+function closeAllWindows() {
+    $.each(air.NativeApplication.nativeApplication.openedWindows, function( index, openedWindow ) {
+        openedWindow.close();
+    });
+}

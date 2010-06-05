@@ -7,9 +7,44 @@
     
   </head>
 
-  <body>
+  <body class="window">
+    
+    <h1>Help!</h1>
 
-    <h2>Some help is here</h2>
+    <div class="section">
+      <h3>Where do I find my Basecamp API key?</h3>
+
+      <div class="section_content">
+        <p>
+          Log into Basecamp and click the "My info" link in the top right of the screen. If you scroll to the bottom of that page you should see a section labled "Authentication tokens." Click the "Show your tokens" link and you'll see something similar to the image below. Chronoly needs your API token (the box is highlighted in orange in the example image).
+        </p>
+        <p>
+          <img src="images/api_tokens.png" />
+        </p>
+        <p>
+          Copy and paste that entire key into the settings and click "Verify and Save." If you later decide to regenerate your key, you'll need to add your new key to Chronoly before it can work again.
+        </p>
+      </div>
+      
+    </div>
+
+    <div class="section">
+      <h3>What "URL" do I need to put in settings?</h3>
+
+      <div class="section_content">
+        <p>
+          Basecamp urls are in this form:
+        </p> 
+        <p>
+          https://<strong>company-name</strong>.basecamphq.com
+        </p>
+        <p>
+          We need you to specify the "<strong>company-name</strong>" part so that we can point Chronoly at the right account.
+        </p>
+        
+      </div>
+
+      </div>
 
   </body>
 
