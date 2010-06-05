@@ -3,12 +3,12 @@ body {
     color: #f0821c;
 }
 
-#splashScreen {
+#splash-screen {
     text-align: center;
     color: #f0821c;
 }
 
-#mainWindow {
+#main-window {
     display: none;
 }
 
@@ -24,11 +24,11 @@ body {
     border: 2px solid #f0821c;
 }
 
-.section_content > div {
+.section-content > div {
     margin: 5px 0px;
 }
 
-.section_content {
+.section-content {
     padding: 5px;
 }
 
@@ -41,7 +41,7 @@ body {
     color: black;
 }
 
-#settingsMask {
+#settings-mask {
     position: fixed;
     top: 0;
     left: 0;
@@ -51,7 +51,7 @@ body {
     height: 100%;
 }
 
-#settingsDialog {
+#settings-dialog {
     position:fixed;
     top:35%;
     left:50%;
@@ -61,29 +61,30 @@ body {
     font-size: .75em;
 }
 
-#menu_bar {
+#menu-bar {
     float: right;
 }
 
-#menu_bar li {
+#menu-bar li {
     list-style: none;
     display: inline;
     margin-right: 10px;
 }
 
-#menu_bar a {
+#menu-bar a {
     color: #f0821c;
     font-weight: bold;
     text-decoration: none;
 }
 
-#main_msg {
+#main-msg {
     padding: 0px 5px;
     -webkit-border-radius: 5px;
     display: none;
+    color: black;
 }
 
-#status_bar {
+#status-bar {
     height: 25px;
     text-align: center;
 }
@@ -96,7 +97,7 @@ select {
     width: 275px;
 }
 
-.select_label {
+.select-label {
     display: inline-block;
     width: 75px;
 }

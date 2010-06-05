@@ -19,23 +19,23 @@
   <body onLoad="init()">
 
     <!-- Splash Screen -->
-    <div id="splashScreen" class="window">
+    <div id="splash-screen" class="window">
       <h1>Chronoly</h1>
       loading...
     </div>
     <!-- End Splash Screen -->
 
     <!-- Main window -->
-    <div id="mainWindow" class="window">
+    <div id="main-window" class="window">
 
-      <div id="status_bar">
-        <div id="main_msg" class="message"></div>
+      <div id="status-bar">
+        <div id="main-msg" class="message"></div>
         <div id="loading" style="display: none"><img src="images/loading.gif" /></div>
       </div>
 
       <div class="section">
         <h3>Time Reports</h3>
-        <div class="section_content">
+        <div class="section-content">
           Time logged today:<span id="time_logged_today"></span><br />
           Time logged this week:<span id="time_logged_this_week"></span><br />
         </div>
@@ -43,10 +43,10 @@
 
       <div class="section">
         <h3>Record Time</h3>
-        <div class="section_content">
-          <div><span class="select_label">Project: </span><select id="project_select" disabled="disabled"></select></div>
-          <div><span class="select_label">List: </span><select id="todo_list_select" disabled="disabled"></select></div>
-          <div><span class="select_label">Item: </span><select id="item_select" disabled="disabled"></select></div>
+        <div class="section-content">
+          <div><span class="select-label">Project: </span><select id="project_select" disabled="disabled"></select></div>
+          <div><span class="select-label">List: </span><select id="todo_list_select" disabled="disabled"></select></div>
+          <div><span class="select-label">Item: </span><select id="item_select" disabled="disabled"></select></div>
           
           <div>
             Time:<input id="time_input" size="4" type="text"/> 
@@ -60,7 +60,7 @@
         </div>
       </div>
 
-      <ul id="menu_bar">
+      <ul id="menu-bar">
         <li><a href="#" id="settings_link">Settings</a></li>
         <li><a href="#" id="help_link">Help</a></li>
         <li><a href="#" id="about_link">About</a></li>
@@ -71,11 +71,11 @@
 
     
     <!-- Settings -->
-    <div id="settingsMask" class="settings"></div>
-    <div id="settingsDialog" class="settings window">
+    <div id="settings-mask" class="settings"></div>
+    <div id="settings-dialog" class="settings window">
       <div class="section">
         <h3>Settings</h3>
-        <div class="section_content">
+        <div class="section-content">
           <div id="settings_msg" class="message"></div>
           URL: <input id="basecamp_url" type="text" />.basecamphq.com<br />
           API token: <input id="api_token" type="text" /><br />

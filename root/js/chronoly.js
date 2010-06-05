@@ -73,8 +73,8 @@ function initialRequest() {
     $.get( base_url + '/me.xml', function(data) {
         user_id = $(data).find('person > id').text();
         
-        $('#splashScreen').css('display', 'none');
-        $('#mainWindow').css('display', 'block');
+        $('#splash-screen').css('display', 'none');
+        $('#main-window').css('display', 'block');
         
         getTimeReports();
         getProjectList();
@@ -153,11 +153,11 @@ function verifyAndSaveSettings() {
 }
 
 function show_message(msg) {
-    $('#main_msg').text(msg);
-    $('#main_msg').css('display', 'block');
+    $('#main-msg').text(msg);
+    $('#main-msg').css('display', 'block');
     setTimeout( function() { 
-    $('#main_msg').css('display', 'none');
-        $('#main_msg').text(''); 
+    $('#main-msg').css('display', 'none');
+        $('#main-msg').text(''); 
     }, 5000 );
 }
 
