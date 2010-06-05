@@ -15,7 +15,7 @@ function getReport(report_id, report_param_string) {
         $(data).find('time-entry > hours').each(function() {
             total += parseFloat($(this).text());
         });
-        $('#' + report_id).html(total);
+        $('#' + report_id).html(total.toFixed(1));
     });
 }
 
