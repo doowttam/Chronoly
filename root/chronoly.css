@@ -52,15 +52,12 @@ body {
 }
 
 #settingsDialog {
-    background-color: white;
     position:fixed;
     top:35%;
     left:50%;
     margin-left: -180px;
-    width:320px;
+    width:340px;
     min-height: 100px;
-    border: 1px solid black;
-    padding: 20px;
     font-size: .75em;
 }
 
