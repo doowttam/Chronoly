@@ -8,13 +8,16 @@ var api_token = '';
 var basecamp_url = '';
 var base_url = '';
 var user_id;
+var minimized = false;
 
 function init() {
     air.trace('init');
 
     window.htmlLoader.authenticate = false;  
-	window.nativeWindow.addEventListener(air.Event.CLOSING, closeAllWindows);
+    window.nativeWindow.addEventListener(air.Event.CLOSING, cleanupAndQuit);
     setUpUpdater();
+
+    initSysTray();
 
     // Add onClick handlers
     document.getElementById('settings_link').addEventListener("click", showSettings);
@@ -58,6 +61,52 @@ function init() {
     // Periodically get new time reports (just in case time was added through the
     // Basecamp ui
     setInterval( getTimeReports, hoursToMS(0.5) );
+}
+
+function initSysTray() {
+    var iconLoadComplete = function(event) 
+    { 
+        air.NativeApplication.nativeApplication.icon.bitmaps = [event.target.content.bitmapData]; 
+    } 
+     
+//    air.NativeApplication.nativeApplication.autoExit = false; 
+    var iconLoad = new air.Loader(); 
+    var iconMenu = new air.NativeMenu(); 
+    var exitCommand = iconMenu.addItem(new air.NativeMenuItem("Exit")); 
+    exitCommand.addEventListener(air.Event.SELECT,function(event){ 
+            air.NativeApplication.nativeApplication.exit(); 
+    }); 
+ 
+    if (air.NativeApplication.supportsSystemTrayIcon) { 
+//        air.NativeApplication.nativeApplication.autoExit = false;
+        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete); 
+        iconLoad.load(new air.URLRequest("icons/16/clock.png")); 
+        air.NativeApplication.nativeApplication.icon.tooltip = "AIR application"; 
+        air.NativeApplication.nativeApplication.icon.menu = iconMenu; 
+
+        // minimize on click
+        air.NativeApplication.nativeApplication.icon.addEventListener("click", minimize); 
+    } 
+ 
+    if (air.NativeApplication.supportsDockIcon) { 
+        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete); 
+        iconLoad.load(new air.URLRequest("icons/16/clock.png")); 
+        air.NativeApplication.nativeApplication.icon.menu = iconMenu; 
+
+        // minimize on click
+        air.NativeApplication.nativeApplication.addEventListener("invoke", minimize);
+
+    }
+}
+
+function minimize() {
+    if (minimized) {
+        window.nativeWindow.visible = true;
+        minimized = false;
+    } else {
+        window.nativeWindow.visible = false;
+        minimized = true;
+    }
 }
 
 function setUpUpdater() {
@@ -197,4 +246,13 @@ function closeAllWindows() {
     $.each(air.NativeApplication.nativeApplication.openedWindows, function( index, openedWindow ) {
         openedWindow.close();
     });
+}
+
+function cleanupSysTray() {
+    air.NativeApplication.nativeApplication.icon.bitmaps = []; 
+}
+
+function cleanupAndQuit() {
+    closeAllWindows();
+    cleanupSysTray();
 }
