@@ -116,11 +116,17 @@ function submitTime() {
     
     var date = dateToString(new Date());
     
+    var shouldCompleteToDoItem = $('#complete_checkbox').attr('checked');
+
     var hours = $('#time_input').val();
     // Currently just return, but really need to give
     // the user a message. Also need validation that it's a number
-    if (hours == '')
+    if ( ( hours == '' || hours == 0 ) && shouldCompleteToDoItem ) {
+        completeToDoItem(item_id);
         return;
+    } else if ( hours == '' || hours == 0 ) {
+        return;
+    }
 
     var description = $('#time_description').val();
 
@@ -140,7 +146,7 @@ function submitTime() {
         data: xml,
         dataType: 'text',
         success: function(data, textStatus) {
-            if ( $('#complete_checkbox').attr('checked') ) {
+            if ( shouldCompleteToDoItem ) {
                 completeToDoItem(item_id);
             } else {
                 hideLoading();
