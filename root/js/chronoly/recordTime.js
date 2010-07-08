@@ -140,11 +140,29 @@ function submitTime() {
         data: xml,
         dataType: 'text',
         success: function(data, textStatus) {
-            hideLoading();
-            showMessage('Time successfully entered!');
+            if ( $('#complete_checkbox').attr('checked') ) {
+                completeToDoItem(item_id);
+            } else {
+                hideLoading();
+                showMessage('Time successfully entered!');
+            }
             $('#time_input').val(0);
             $('#time_description').val('');
             getTimeReports();
+        }
+    });
+}
+
+function completeToDoItem(id) {
+    showLoading();
+    $.ajax({
+        url: base_url + '/todo_items/' +  id + '/complete.xml',
+        type: 'PUT',
+        dataType: 'text',
+        success: function(data, textStatus) {
+            hideLoading();
+            showMessage('Item successfully completed!');
+            $('#complete_checkbox').attr('checked', false);
         }
     });
 }
