@@ -169,6 +169,7 @@ function completeToDoItem(id) {
             hideLoading();
             showMessage('Item successfully completed!');
             $('#complete_checkbox').attr('checked', false);
+            getToDoItems();
         }
     });
 }
