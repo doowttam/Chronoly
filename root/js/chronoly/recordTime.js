@@ -111,22 +111,23 @@ function byContent(a, b) {
 
 function submitTime() {
     var item_id = $('#item_select').val();
+    var hours   = $('#time_input').val();
 
-    var validation_obj = _validate_time_params(item_id);
+    var validation_obj = _validate_time_params(item_id, hours);
 
     if ( validation_obj.valid == false ) {
         showMessage(validation_obj.msg);
         return;
     }
 
-    var time_ajax_params = _build_submit_time_ajax_params(item_id);
+    var time_ajax_params = _build_submit_time_ajax_params(item_id, hours);
 
     stopTimer();
     showLoading();
     $.ajax(time_ajax_params);
 }
 
-function _validate_time_params(item_id) {
+function _validate_time_params(item_id, hours) {
     var validation_obj   = new Object;
     validation_obj.valid = true;
     validation_obj.msg   = '';
@@ -135,20 +136,17 @@ function _validate_time_params(item_id) {
         validation_obj.valid = false;
         validation_obj.msg   = 'No valid todo item selected.';
     }
+    else if (hours == '' || hours == 0) {
+        validation_obj.valid = false;
+        validation_obj.msg   = 'Time value is not valid.';
+    }
 
     return validation_obj;
 }
 
-function _build_submit_time_ajax_params(item_id) {
+function _build_submit_time_ajax_params(item_id, hours) {
     var date = dateToString(new Date());
     
-    var hours = $('#time_input').val();
-    // Currently just return, but really need to give
-    // the user a message. Also need validation that it's a number
-    if ( hours == '' || hours == 0 ) {
-        return;
-    }
-
     var description = $('#time_description').val();
 
     var ajax_params = new Object;
