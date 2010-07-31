@@ -111,21 +111,36 @@ function byContent(a, b) {
 
 function submitTime() {
 
-    var time_ajax_params = _build_submit_time_ajax_params();
+    var item_id = $('#item_select').val();
 
-    air.Introspector.Console.log(ajax_params);
+    var validation_obj = _validate_time_params(item_id);
+
+    if ( validation_obj.valid == false ) {
+        showMessage(validation_obj.msg);
+        return;
+    }
+
+    var time_ajax_params = _build_submit_time_ajax_params(item_id);
 
     stopTimer();
     showLoading();
     $.ajax(time_ajax_params);
 }
 
-function _build_submit_time_ajax_params() {
-    var item_id = $('#item_select').val();
+function _validate_time_params(item_id) {
+    var validation_obj   = new Object;
+    validation_obj.valid = true;
+    validation_obj.msg   = '';
 
-    if (item_id == -1 || item_id == null)
-        return;
-    
+    if (item_id == -1 || item_id == null) {
+        validation_obj.valid = false;
+        validation_obj.msg   = 'No valid todo item selected.';
+    }
+
+    return validation_obj;
+}
+
+function _build_submit_time_ajax_params(item_id) {
     var date = dateToString(new Date());
     
     var shouldCompleteToDoItem = $('#complete_checkbox').attr('checked');
