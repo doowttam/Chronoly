@@ -163,10 +163,11 @@ function _build_submit_time_ajax_params(item_id, hours) {
         getTimeReports();
     };
 
-    ajax_params.data = '<time-entry>'
-        + '<person-id>' + user_id + '</person-id>'
-        + '<date>' + date + '</date>'
-        + '<hours>' + hours + '</hours>'
+    ajax_params.data 
+        = '<time-entry>'
+        + '<person-id>'   + user_id     + '</person-id>'
+        + '<date>'        + date        + '</date>'
+        + '<hours>'       + hours       + '</hours>'
         + '<description>' + description + '</description>'
         + '</time-entry>';
 
