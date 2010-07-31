@@ -212,9 +212,10 @@ function _build_complete_item_ajax_params(item_id) {
     ajax_params.dataType = 'text';
 
     ajax_params.success  = function(data, textStatus) {
-            hideLoading();
-            showMessage('Item successfully completed!');
-            getToDoItems();
+        hideLoading();
+        showMessage('Item successfully completed!');
+        // Trigger a refresh of the todo list items
+        $('#todo_list_select').change();
     };
     
     return ajax_params;
