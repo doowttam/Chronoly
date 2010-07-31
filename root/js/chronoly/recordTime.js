@@ -110,7 +110,6 @@ function byContent(a, b) {
 }
 
 function submitTime() {
-
     var item_id = $('#item_select').val();
 
     var validation_obj = _validate_time_params(item_id);
@@ -143,15 +142,10 @@ function _validate_time_params(item_id) {
 function _build_submit_time_ajax_params(item_id) {
     var date = dateToString(new Date());
     
-    var shouldCompleteToDoItem = $('#complete_checkbox').attr('checked');
-
     var hours = $('#time_input').val();
     // Currently just return, but really need to give
     // the user a message. Also need validation that it's a number
-    if ( ( hours == '' || hours == 0 ) && shouldCompleteToDoItem ) {
-        completeToDoItem(item_id);
-        return;
-    } else if ( hours == '' || hours == 0 ) {
+    if ( hours == '' || hours == 0 ) {
         return;
     }
 
@@ -163,12 +157,9 @@ function _build_submit_time_ajax_params(item_id) {
     ajax_params.dataType = 'text';
 
     ajax_params.success = function(data, textStatus) {
-        if ( shouldCompleteToDoItem ) {
-            completeToDoItem(item_id);
-        } else {
-            hideLoading();
-            showMessage('Time successfully entered!');
-        }
+        hideLoading();
+        showMessage('Time successfully entered!');
+
         $('#time_input').val(0);
         $('#time_description').val('');
         getTimeReports();
@@ -184,17 +175,47 @@ function _build_submit_time_ajax_params(item_id) {
     return ajax_params;
 }
 
-function completeToDoItem(id) {
+function completeTodoItem() {
+    var item_id = $('#item_select').val();
+
+    var validation_obj = _validate_item(item_id);
+
+    if ( validation_obj.valid == false ) {
+        showMessage(validation_obj.msg);
+        return;
+    }
+
+    var complete_ajax_params = _build_complete_item_ajax_params(item_id);
+
     showLoading();
-    $.ajax({
-        url: base_url + '/todo_items/' +  id + '/complete.xml',
-        type: 'PUT',
-        dataType: 'text',
-        success: function(data, textStatus) {
+    $.ajax(complete_ajax_params);
+}
+
+function _validate_item(item_id) {
+    var validation_obj   = new Object;
+    validation_obj.valid = true;
+    validation_obj.msg   = '';
+
+    if (item_id == -1 || item_id == null) {
+        validation_obj.valid = false;
+        validation_obj.msg   = 'No valid todo item selected.';
+    }
+
+    return validation_obj;
+}
+
+function _build_complete_item_ajax_params(item_id) {
+    var ajax_params      = new Object;
+
+    ajax_params.url      = base_url + '/todo_items/' +  item_id + '/complete.xml';
+    ajax_params.type     = 'PUT';
+    ajax_params.dataType = 'text';
+
+    ajax_params.success  = function(data, textStatus) {
             hideLoading();
             showMessage('Item successfully completed!');
-            $('#complete_checkbox').attr('checked', false);
             getToDoItems();
-        }
-    });
+    };
+    
+    return ajax_params;
 }
