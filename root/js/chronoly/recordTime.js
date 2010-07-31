@@ -110,7 +110,19 @@ function byContent(a, b) {
 }
 
 function submitTime() {
+
+    var time_ajax_params = _build_submit_time_ajax_params();
+
+    air.Introspector.Console.log(ajax_params);
+
+    stopTimer();
+    showLoading();
+    $.ajax(time_ajax_params);
+}
+
+function _build_submit_time_ajax_params() {
     var item_id = $('#item_select').val();
+
     if (item_id == -1 || item_id == null)
         return;
     
@@ -130,33 +142,31 @@ function submitTime() {
 
     var description = $('#time_description').val();
 
-    // FIXME: do this with jQuery instead of making it with string concatination?
-    var xml = '<time-entry>'
+    var ajax_params = new Object;
+    ajax_params.url = base_url + '/todo_items/' +  item_id + '/time_entries.xml';
+    ajax_params.type = 'POST';
+    ajax_params.dataType = 'text';
+
+    ajax_params.success = function(data, textStatus) {
+        if ( shouldCompleteToDoItem ) {
+            completeToDoItem(item_id);
+        } else {
+            hideLoading();
+            showMessage('Time successfully entered!');
+        }
+        $('#time_input').val(0);
+        $('#time_description').val('');
+        getTimeReports();
+    };
+
+    ajax_params.data = '<time-entry>'
         + '<person-id>' + user_id + '</person-id>'
         + '<date>' + date + '</date>'
         + '<hours>' + hours + '</hours>'
         + '<description>' + description + '</description>'
-        + '</time-entry>'
+        + '</time-entry>';
 
-    stopTimer();
-    showLoading();
-    $.ajax({
-        url: base_url + '/todo_items/' +  item_id + '/time_entries.xml',
-        type: 'POST',
-        data: xml,
-        dataType: 'text',
-        success: function(data, textStatus) {
-            if ( shouldCompleteToDoItem ) {
-                completeToDoItem(item_id);
-            } else {
-                hideLoading();
-                showMessage('Time successfully entered!');
-            }
-            $('#time_input').val(0);
-            $('#time_description').val('');
-            getTimeReports();
-        }
-    });
+    return ajax_params;
 }
 
 function completeToDoItem(id) {
