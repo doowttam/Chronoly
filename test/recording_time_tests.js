@@ -54,4 +54,63 @@ $(document).ready(function() {
             'Valid params pass validation'
         );
     });
+
+    test("Build Submit Time AJAX Params", function() {
+        expect(6);
+
+        // Set up the global variables
+        base_url = 'test.com';
+        user_id  = 42;
+
+        var ajax_params = _build_submit_time_ajax_params(1, 1, 'test description');
+        equals(
+            ajax_params.url,
+            'test.com/todo_items/1/time_entries.xml',
+            'URL built correctly'
+        );
+        equals(
+            ajax_params.type,
+            'POST',
+            'Request type correct'
+        );
+        equals(
+            ajax_params.dataType,
+            'text',
+            'Data type correct'
+        );
+        ok(
+            ajax_params.success,
+            'Success callback function provided'
+        );
+
+        var expected_data
+            = '<time-entry>'
+            + '<person-id>42</person-id>'
+            + '<date>' + dateToString(new Date()) + '</date>'
+            + '<hours>1</hours>'
+            + '<description>test description</description>'
+            + '</time-entry>';
+
+        equals(
+            ajax_params.data,
+            expected_data,
+            'XML data built correctly.'
+        );
+
+        // No Description
+        ajax_params = _build_submit_time_ajax_params(1, 1, '');
+
+        expected_data
+            = '<time-entry>'
+            + '<person-id>42</person-id>'
+            + '<date>' + dateToString(new Date()) + '</date>'
+            + '<hours>1</hours>'
+            + '</time-entry>';
+
+        equals(
+            ajax_params.data,
+            expected_data,
+            'XML data built correctly when no description'
+        );
+    });
 });

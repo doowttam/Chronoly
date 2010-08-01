@@ -110,8 +110,9 @@ function byContent(a, b) {
 }
 
 function submitTime() {
-    var item_id = $('#item_select').val();
-    var hours   = $('#time_input').val();
+    var item_id     = $('#item_select').val();
+    var hours       = $('#time_input').val();
+    var description = $('#time_description').val();
 
     var validation_obj = _validate_time_params(item_id, hours);
 
@@ -120,7 +121,7 @@ function submitTime() {
         return;
     }
 
-    var time_ajax_params = _build_submit_time_ajax_params(item_id, hours);
+    var time_ajax_params = _build_submit_time_ajax_params(item_id, hours, description);
 
     stopTimer();
     showLoading();
@@ -144,11 +145,9 @@ function _validate_time_params(item_id, hours) {
     return validation_obj;
 }
 
-function _build_submit_time_ajax_params(item_id, hours) {
+function _build_submit_time_ajax_params(item_id, hours, description) {
     var date = dateToString(new Date());
     
-    var description = $('#time_description').val();
-
     var ajax_params = new Object;
     ajax_params.url = base_url + '/todo_items/' +  item_id + '/time_entries.xml';
     ajax_params.type = 'POST';
@@ -158,17 +157,25 @@ function _build_submit_time_ajax_params(item_id, hours) {
         hideLoading();
         showMessage('Time successfully entered!');
 
+        // Reset inputs
         $('#time_input').val(0);
         $('#time_description').val('');
+
         getTimeReports();
     };
+
+    // Only include description if it's provided
+    var descriptionData = '';
+    if ( description != '' ) {
+        descriptionData =  '<description>' + description + '</description>';
+    }
 
     ajax_params.data 
         = '<time-entry>'
         + '<person-id>'   + user_id     + '</person-id>'
         + '<date>'        + date        + '</date>'
         + '<hours>'       + hours       + '</hours>'
-        + '<description>' + description + '</description>'
+        + descriptionData
         + '</time-entry>';
 
     return ajax_params;
