@@ -113,4 +113,67 @@ $(document).ready(function() {
             'XML data built correctly when no description'
         );
     });
+
+    test("Validate Complete Item Params", function() {
+        expect(3);
+
+        var validation_obj = _validate_item(-1);
+        same(
+            validation_obj,
+            {
+                valid: false,
+                msg:   'No valid todo item selected.'
+            },
+            'Validation catches -1 item_id as invalid'
+        );
+
+        validation_obj = _validate_item(null);
+        same(
+            validation_obj,
+            {
+                valid: false,
+                msg:   'No valid todo item selected.'
+            },
+            'Validation catches null item_id as invalid'
+        );
+
+        validation_obj = _validate_item(1);
+        same(
+            validation_obj,
+            {
+                valid: true,
+                msg:   ''
+            },
+            'Valid params pass validation'
+        );
+    });
+
+    test("Build Complete Item AJAX Params", function() {
+        expect(4);
+
+        // Set up the global variables
+        base_url = 'test.com';
+        user_id  = 42;
+
+        var ajax_params = _build_complete_item_ajax_params(1);
+        equals(
+            ajax_params.url,
+            'test.com/todo_items/1/complete.xml',
+            'URL built correctly'
+        );
+        equals(
+            ajax_params.type,
+            'PUT',
+            'Request type correct'
+        );
+        equals(
+            ajax_params.dataType,
+            'text',
+            'Data type correct'
+        );
+        ok(
+            ajax_params.success,
+            'Success callback function provided'
+        );
+    });
 });
