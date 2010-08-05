@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
-  <version>0.5.1</version> 
-  <url>http://doowttam.github.com/Chronoly/Chronoly.air</url> 
-  <description>Now built on Air 2.0</description> 
+  <version>0.6</version> 
+  <url>http://chronoly.com/Chronoly.air</url> 
+  <description>Complete an item, pick a day to record your time, and backend refactors.</description> 
 </update>
