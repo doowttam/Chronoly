@@ -114,6 +114,14 @@ function submitTime() {
     var hours       = $('#time_input').val();
     var description = $('#time_description').val();
 
+    var date;
+    if ( $('#details_div').is(':visible') ) {
+        date = selectsToDate();
+    }
+    else {
+        date = new Date();
+    }
+
     var validation_obj = _validate_time_params(item_id, hours);
 
     if ( validation_obj.valid == false ) {
@@ -121,7 +129,7 @@ function submitTime() {
         return;
     }
 
-    var time_ajax_params = _build_submit_time_ajax_params(item_id, hours, description);
+    var time_ajax_params = _build_submit_time_ajax_params(item_id, hours, description, date);
 
     stopTimer();
     showLoading();
@@ -145,8 +153,8 @@ function _validate_time_params(item_id, hours) {
     return validation_obj;
 }
 
-function _build_submit_time_ajax_params(item_id, hours, description) {
-    var date = dateToString(new Date());
+function _build_submit_time_ajax_params(item_id, hours, description, date) {
+    var date = dateToString(date);
     
     var ajax_params = new Object;
     ajax_params.url = base_url + '/todo_items/' +  item_id + '/time_entries.xml';

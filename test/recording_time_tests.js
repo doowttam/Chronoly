@@ -56,13 +56,15 @@ $(document).ready(function() {
     });
 
     test("Build Submit Time AJAX Params", function() {
-        expect(6);
+        expect(7);
 
         // Set up the global variables
         base_url = 'test.com';
         user_id  = 42;
 
-        var ajax_params = _build_submit_time_ajax_params(1, 1, 'test description');
+        var dateString = dateToString(new Date());
+
+        var ajax_params = _build_submit_time_ajax_params(1, 1, 'test description', new Date());
         equals(
             ajax_params.url,
             'test.com/todo_items/1/time_entries.xml',
@@ -86,7 +88,7 @@ $(document).ready(function() {
         var expected_data
             = '<time-entry>'
             + '<person-id>42</person-id>'
-            + '<date>' + dateToString(new Date()) + '</date>'
+            + '<date>' + dateString + '</date>'
             + '<hours>1</hours>'
             + '<description>test description</description>'
             + '</time-entry>';
@@ -98,12 +100,12 @@ $(document).ready(function() {
         );
 
         // No Description
-        ajax_params = _build_submit_time_ajax_params(1, 1, '');
+        ajax_params = _build_submit_time_ajax_params(1, 1, '', new Date());
 
         expected_data
             = '<time-entry>'
             + '<person-id>42</person-id>'
-            + '<date>' + dateToString(new Date()) + '</date>'
+            + '<date>' + dateString + '</date>'
             + '<hours>1</hours>'
             + '</time-entry>';
 
@@ -112,6 +114,28 @@ $(document).ready(function() {
             expected_data,
             'XML data built correctly when no description'
         );
+
+        // Different date
+        var date = new Date();
+        date.setYear(2009);
+
+        dateString = dateToString(date);
+
+        ajax_params = _build_submit_time_ajax_params(1, 1, '', date);
+
+        expected_data
+            = '<time-entry>'
+            + '<person-id>42</person-id>'
+            + '<date>' + dateString + '</date>'
+            + '<hours>1</hours>'
+            + '</time-entry>';
+
+        equals(
+            ajax_params.data,
+            expected_data,
+            'XML data built correctly when different date'
+        );
+
     });
 
     test("Validate Complete Item Params", function() {

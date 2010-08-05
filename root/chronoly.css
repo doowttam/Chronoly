@@ -93,7 +93,7 @@ body {
     background-color: #fff79d;
 }
 
-select {
+select.standard {
     width: 275px;
 }
 
@@ -110,4 +110,14 @@ select {
 
 .center {
     text-align: center;
+}
+
+#details_div {
+    display: none;
+}
+
+#options_link {
+    color: #f0821c;
+    font-weight: bold;
+    text-decoration: none;
 }
