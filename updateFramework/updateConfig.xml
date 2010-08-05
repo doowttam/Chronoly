@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <configuration xmlns="http://ns.adobe.com/air/framework/update/configuration/1.0"> 
-     <url>http://doowttam.github.com/Chronoly/updateDescriptor.xml</url> 
+     <url>http://chronoly.com/updateDescriptor.xml</url> 
     <delay>7</delay> 
 </configuration>
