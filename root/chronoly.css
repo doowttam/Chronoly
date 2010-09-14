@@ -93,6 +93,7 @@ body {
     background-color: #fff79d;
 }
 
+input.standard,
 select.standard {
     width: 275px;
 }
@@ -112,12 +113,6 @@ select.standard {
     text-align: center;
 }
 
-#details_div {
-    display: none;
-}
-
-#options_link {
-    color: #f0821c;
-    font-weight: bold;
-    text-decoration: none;
+.spacer {
+    height: 1%;
 }

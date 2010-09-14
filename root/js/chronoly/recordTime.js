@@ -114,14 +114,7 @@ function submitTime() {
     var hours       = $('#time_input').val();
     var description = $('#time_description').val();
 
-    var date;
-    if ( $('#details_div').is(':visible') ) {
-        date = selectsToDate();
-    }
-    else {
-        date = new Date();
-    }
-
+    var date           = selectsToDate();
     var validation_obj = _validate_time_params(item_id, hours);
 
     if ( validation_obj.valid == false ) {

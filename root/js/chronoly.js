@@ -22,7 +22,6 @@ function init() {
     document.getElementById('help_link').addEventListener("click", showHelp);
     document.getElementById('settings_help_link').addEventListener("click", showHelp);
     document.getElementById('close_settings_link').addEventListener("click", hideSettings);
-    document.getElementById('options_link').addEventListener("click", toggleOptions);
 
     // Set the date boxes
     dateToSelects(new Date());
@@ -116,17 +115,6 @@ function showSettings(msg) {
 
 function hideSettings() {
     $('.settings').css('display', 'none');
-}
-
-function toggleOptions() {
-    if ( $('#details_div').css('display') == 'none' ) {
-        $('#details_div').css('display', 'block');
-        $('#options_link').text('Less Options');
-    }
-    else {
-        $('#details_div').css('display', 'none');
-        $('#options_link').text('More Options');
-    }
 }
 
 // Convert a date to YYYYMMDD format
