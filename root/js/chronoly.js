@@ -262,12 +262,10 @@ function showAbout() {
 
 function showTodayDetails() {
     openWindow("/root/details.html", 500, 400);
-  //  getTodayReport();
 }
 
 function showWeekDetails() {
     openWindow("/root/details.html", 500, 400);
-//    getWeekReport();
 }
 
 function openWindow(path, height, width) {
