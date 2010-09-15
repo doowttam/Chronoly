@@ -29,6 +29,9 @@ function init() {
     document.getElementById('time_logged_today').addEventListener("click", showTodayDetails);
     document.getElementById('time_logged_this_week').addEventListener("click", showWeekDetails);
 
+    // Set the date boxes
+    dateToSelects(new Date());
+
     // Set up the defaults for ajax
     $.ajaxSetup({
         contentType: 'application/xml',
@@ -67,42 +70,45 @@ function init() {
 }
 
 function initSysTray() {
-    var iconLoadComplete = function(event)
-    {
-        air.NativeApplication.nativeApplication.icon.bitmaps = [event.target.content.bitmapData];
+    var app = air.NativeApplication;
+    if (! (app.supportsSystemTrayIcon || app.supportsDockIcon) ) { 
+        return;
     }
 
-//    air.NativeApplication.nativeApplication.autoExit = false;
+    var icon = app.nativeApplication.icon;
+
+    var iconLoadComplete = function(event) 
+    { 
+        icon.bitmaps = [event.target.content.bitmapData]; 
+    }
+
     var iconLoad = new air.Loader();
-    var iconMenu = new air.NativeMenu();
+    iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete);
+    iconLoad.load(new air.URLRequest("icons/16/clock.png"));
+
+    icon.menu = buildIconMenu();
+
+    if (app.supportsSystemTrayIcon) {
+        icon.tooltip = "Chronoly"; // only supported by systray
+        icon.addEventListener("click", toggleMinimize);
+    }
+
+    //// untested, but ought to work
+    if (app.supportsDockIcon) {
+        app.nativeApplication.addEventListener("invoke", toggleMinimize);
+    }
+}
+
+function buildIconMenu() {
+    var iconMenu    = new air.NativeMenu();
     var exitCommand = iconMenu.addItem(new air.NativeMenuItem("Exit"));
     exitCommand.addEventListener(air.Event.SELECT,function(event){
             air.NativeApplication.nativeApplication.exit();
     });
-
-    if (air.NativeApplication.supportsSystemTrayIcon) {
-//        air.NativeApplication.nativeApplication.autoExit = false;
-        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete);
-        iconLoad.load(new air.URLRequest("icons/16/clock.png"));
-        air.NativeApplication.nativeApplication.icon.tooltip = "AIR application";
-        air.NativeApplication.nativeApplication.icon.menu = iconMenu;
-
-        // minimize on click
-        air.NativeApplication.nativeApplication.icon.addEventListener("click", minimize);
-    }
-
-    if (air.NativeApplication.supportsDockIcon) {
-        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete);
-        iconLoad.load(new air.URLRequest("icons/16/clock.png"));
-        air.NativeApplication.nativeApplication.icon.menu = iconMenu;
-
-        // minimize on click
-        air.NativeApplication.nativeApplication.addEventListener("invoke", minimize);
-
-    }
+    return iconMenu;
 }
 
-function minimize() {
+function toggleMinimize() {
     if (minimized) {
         window.nativeWindow.visible = true;
         minimized = false;
@@ -120,7 +126,7 @@ function setUpUpdater() {
 
 function initialRequest() {
     // Get their user id from Basecamp. We could cache this, but this request on
-    // start up is an oppertunity to test their credentials and make sure
+    // start up is an opportunity to test their credentials and make sure
     // everything is in working order.
     $.get( base_url + '/me.xml', function(data) {
         user_id = $(data).find('person > id').text();
@@ -167,7 +173,7 @@ function hideSettings() {
 }
 
 // Convert a date to YYYYMMDD format
-function dateToString (date) {
+function dateToString(date) {
     var year = date.getFullYear().toString();
     var month = date.getMonth() + 1;
     if ( month < 10 )
@@ -177,6 +183,21 @@ function dateToString (date) {
         date = '0' + date;
 
     return year + month + date;
+}
+
+// Set the date selects to the passed in date
+function dateToSelects(date) {
+    $('#date_month').val(date.getMonth() + 1);
+    $('#date_day').val(date.getDate());
+    $('#date_year').val(date.getFullYear());
+}
+
+function selectsToDate() {
+    var date = new Date();
+    date.setYear( parseInt( $('#date_year').val() ) );
+    date.setDate( parseInt( $('#date_day').val() ) );
+    date.setMonth( parseInt( $('#date_month').val() ) - 1);
+    return date;
 }
 
 function verifyAndSaveSettings() {

@@ -58,7 +58,6 @@ body {
     margin-left: -180px;
     width:340px;
     min-height: 100px;
-    font-size: .75em;
 }
 
 #menu-bar {
@@ -75,6 +74,7 @@ body {
     color: #f0821c;
     font-weight: bold;
     text-decoration: none;
+    font-size: 1.5em;
 }
 
 #main-msg {
@@ -93,7 +93,8 @@ body {
     background-color: #fff79d;
 }
 
-select {
+input.standard,
+select.standard {
     width: 275px;
 }
 
@@ -105,8 +106,13 @@ select {
 .section > h3 {
     margin-top: 0px;
     background-color: #f0821c;
+    font-size: 1.5em;
 }
 
 .center {
     text-align: center;
+}
+
+.spacer {
+    height: 1%;
 }

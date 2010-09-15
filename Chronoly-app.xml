@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <application xmlns="http://ns.adobe.com/air/application/1.5"> 
     <id>com.sixmachines.chronoly</id> 
-    <version>0.5</version> 
+    <version>0.6</version> 
     <filename>Chronoly</filename> 
     <initialWindow> 
         <content>root/Chronoly.html</content> 
