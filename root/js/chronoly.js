@@ -26,6 +26,9 @@ function init() {
     document.getElementById('settings_help_link').addEventListener("click", showHelp);
     document.getElementById('close_settings_link').addEventListener("click", hideSettings);
 
+    // Set the date boxes
+    dateToSelects(new Date());
+
     // Set up the defaults for ajax
     $.ajaxSetup({
         contentType: 'application/xml',
@@ -164,7 +167,7 @@ function hideSettings() {
 }
 
 // Convert a date to YYYYMMDD format
-function dateToString (date) {
+function dateToString(date) {
     var year = date.getFullYear().toString();
     var month = date.getMonth() + 1;
     if ( month < 10 )
@@ -174,6 +177,21 @@ function dateToString (date) {
         date = '0' + date;
     
     return year + month + date;
+}
+
+// Set the date selects to the passed in date
+function dateToSelects(date) {
+    $('#date_month').val(date.getMonth() + 1);
+    $('#date_day').val(date.getDate());
+    $('#date_year').val(date.getFullYear());
+}
+
+function selectsToDate() {
+    var date = new Date();
+    date.setYear( parseInt( $('#date_year').val() ) );
+    date.setDate( parseInt( $('#date_day').val() ) );
+    date.setMonth( parseInt( $('#date_month').val() ) - 1);
+    return date;
 }
 
 function verifyAndSaveSettings() {
