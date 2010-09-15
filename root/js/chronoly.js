@@ -67,42 +67,45 @@ function init() {
 }
 
 function initSysTray() {
+    var app = air.NativeApplication;
+    if (! (app.supportsSystemTrayIcon || app.supportsDockIcon) ) { 
+        return;
+    }
+
+    var icon = app.nativeApplication.icon;
+
     var iconLoadComplete = function(event) 
     { 
-        air.NativeApplication.nativeApplication.icon.bitmaps = [event.target.content.bitmapData]; 
-    } 
-     
-//    air.NativeApplication.nativeApplication.autoExit = false; 
-    var iconLoad = new air.Loader(); 
-    var iconMenu = new air.NativeMenu(); 
-    var exitCommand = iconMenu.addItem(new air.NativeMenuItem("Exit")); 
-    exitCommand.addEventListener(air.Event.SELECT,function(event){ 
-            air.NativeApplication.nativeApplication.exit(); 
-    }); 
- 
-    if (air.NativeApplication.supportsSystemTrayIcon) { 
-//        air.NativeApplication.nativeApplication.autoExit = false;
-        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete); 
-        iconLoad.load(new air.URLRequest("icons/16/clock.png")); 
-        air.NativeApplication.nativeApplication.icon.tooltip = "AIR application"; 
-        air.NativeApplication.nativeApplication.icon.menu = iconMenu; 
+        icon.bitmaps = [event.target.content.bitmapData]; 
+    }
 
-        // minimize on click
-        air.NativeApplication.nativeApplication.icon.addEventListener("click", minimize); 
-    } 
- 
-    if (air.NativeApplication.supportsDockIcon) { 
-        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete); 
-        iconLoad.load(new air.URLRequest("icons/16/clock.png")); 
-        air.NativeApplication.nativeApplication.icon.menu = iconMenu; 
+    var iconLoad = new air.Loader();
+    iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete);
+    iconLoad.load(new air.URLRequest("icons/16/clock.png"));
 
-        // minimize on click
-        air.NativeApplication.nativeApplication.addEventListener("invoke", minimize);
+    icon.menu = buildIconMenu();
 
+    if (app.supportsSystemTrayIcon) {
+        icon.tooltip = "Chronoly"; // only supported by systray
+        icon.addEventListener("click", toggleMinimize);
+    }
+
+    //// untested, but ought to work
+    if (app.supportsDockIcon) {
+        app.nativeApplication.addEventListener("invoke", toggleMinimize);
     }
 }
 
-function minimize() {
+function buildIconMenu() {
+    var iconMenu    = new air.NativeMenu();
+    var exitCommand = iconMenu.addItem(new air.NativeMenuItem("Exit"));
+    exitCommand.addEventListener(air.Event.SELECT,function(event){
+            air.NativeApplication.nativeApplication.exit();
+    });
+    return iconMenu;
+}
+
+function toggleMinimize() {
     if (minimized) {
         window.nativeWindow.visible = true;
         minimized = false;
@@ -120,7 +123,7 @@ function setUpUpdater() {
 
 function initialRequest() {
     // Get their user id from Basecamp. We could cache this, but this request on
-    // start up is an oppertunity to test their credentials and make sure
+    // start up is an opportunity to test their credentials and make sure
     // everything is in working order.
     $.get( base_url + '/me.xml', function(data) {
         user_id = $(data).find('person > id').text();
