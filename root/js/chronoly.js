@@ -13,7 +13,7 @@ var minimized = false;
 function init() {
     air.trace('init');
 
-    window.htmlLoader.authenticate = false;  
+    window.htmlLoader.authenticate = false;
     window.nativeWindow.addEventListener(air.Event.CLOSING, cleanupAndQuit);
     setUpUpdater();
 
@@ -25,6 +25,9 @@ function init() {
     document.getElementById('help_link').addEventListener("click", showHelp);
     document.getElementById('settings_help_link').addEventListener("click", showHelp);
     document.getElementById('close_settings_link').addEventListener("click", hideSettings);
+
+    document.getElementById('time_logged_today').addEventListener("click", showTodayDetails);
+    document.getElementById('time_logged_this_week').addEventListener("click", showWeekDetails);
 
     // Set up the defaults for ajax
     $.ajaxSetup({
@@ -60,38 +63,38 @@ function init() {
 
     // Periodically get new time reports (just in case time was added through the
     // Basecamp ui
-    setInterval( getTimeReports, hoursToMS(0.5) );
+    setInterval( updateSummaries, hoursToMS(0.5) );
 }
 
 function initSysTray() {
-    var iconLoadComplete = function(event) 
-    { 
-        air.NativeApplication.nativeApplication.icon.bitmaps = [event.target.content.bitmapData]; 
-    } 
-     
-//    air.NativeApplication.nativeApplication.autoExit = false; 
-    var iconLoad = new air.Loader(); 
-    var iconMenu = new air.NativeMenu(); 
-    var exitCommand = iconMenu.addItem(new air.NativeMenuItem("Exit")); 
-    exitCommand.addEventListener(air.Event.SELECT,function(event){ 
-            air.NativeApplication.nativeApplication.exit(); 
-    }); 
- 
-    if (air.NativeApplication.supportsSystemTrayIcon) { 
+    var iconLoadComplete = function(event)
+    {
+        air.NativeApplication.nativeApplication.icon.bitmaps = [event.target.content.bitmapData];
+    }
+
+//    air.NativeApplication.nativeApplication.autoExit = false;
+    var iconLoad = new air.Loader();
+    var iconMenu = new air.NativeMenu();
+    var exitCommand = iconMenu.addItem(new air.NativeMenuItem("Exit"));
+    exitCommand.addEventListener(air.Event.SELECT,function(event){
+            air.NativeApplication.nativeApplication.exit();
+    });
+
+    if (air.NativeApplication.supportsSystemTrayIcon) {
 //        air.NativeApplication.nativeApplication.autoExit = false;
-        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete); 
-        iconLoad.load(new air.URLRequest("icons/16/clock.png")); 
-        air.NativeApplication.nativeApplication.icon.tooltip = "AIR application"; 
-        air.NativeApplication.nativeApplication.icon.menu = iconMenu; 
+        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete);
+        iconLoad.load(new air.URLRequest("icons/16/clock.png"));
+        air.NativeApplication.nativeApplication.icon.tooltip = "AIR application";
+        air.NativeApplication.nativeApplication.icon.menu = iconMenu;
 
         // minimize on click
-        air.NativeApplication.nativeApplication.icon.addEventListener("click", minimize); 
-    } 
- 
-    if (air.NativeApplication.supportsDockIcon) { 
-        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete); 
-        iconLoad.load(new air.URLRequest("icons/16/clock.png")); 
-        air.NativeApplication.nativeApplication.icon.menu = iconMenu; 
+        air.NativeApplication.nativeApplication.icon.addEventListener("click", minimize);
+    }
+
+    if (air.NativeApplication.supportsDockIcon) {
+        iconLoad.contentLoaderInfo.addEventListener(air.Event.COMPLETE,iconLoadComplete);
+        iconLoad.load(new air.URLRequest("icons/16/clock.png"));
+        air.NativeApplication.nativeApplication.icon.menu = iconMenu;
 
         // minimize on click
         air.NativeApplication.nativeApplication.addEventListener("invoke", minimize);
@@ -110,8 +113,8 @@ function minimize() {
 }
 
 function setUpUpdater() {
-    var appUpdater = new runtime.air.update.ApplicationUpdaterUI(); 
-    appUpdater.configurationFile = new air.File("app:/updateFramework/updateConfig.xml"); 
+    var appUpdater = new runtime.air.update.ApplicationUpdaterUI();
+    appUpdater.configurationFile = new air.File("app:/updateFramework/updateConfig.xml");
     appUpdater.initialize();
 }
 
@@ -121,11 +124,11 @@ function initialRequest() {
     // everything is in working order.
     $.get( base_url + '/me.xml', function(data) {
         user_id = $(data).find('person > id').text();
-        
+
         $('#splash-screen').css('display', 'none');
         $('#main-window').css('display', 'block');
-        
-        getTimeReports();
+
+        updateSummaries();
         getProjectList();
     });
 }
@@ -148,7 +151,7 @@ function checkSettings() {
 }
 
 function showSettings(msg) {
-    // Hack because the onclick eventhandlers pass in 
+    // Hack because the onclick eventhandlers pass in
     // the event object as a parameter.
     if ( typeof msg != 'string' )
         msg = '';
@@ -172,7 +175,7 @@ function dateToString (date) {
     var date = date.getDate();
     if ( date < 10 )
         date = '0' + date;
-    
+
     return year + month + date;
 }
 
@@ -184,12 +187,12 @@ function verifyAndSaveSettings() {
     $.ajax({
         url: base_url + '/me.xml',
         success: function(data) {
-            var bytes = new air.ByteArray(); 
-            bytes.writeUTFBytes(api_token); 
+            var bytes = new air.ByteArray();
+            bytes.writeUTFBytes(api_token);
             air.EncryptedLocalStore.setItem("api_token", bytes);
 
             bytes = new air.ByteArray();
-            bytes.writeUTFBytes(basecamp_url); 
+            bytes.writeUTFBytes(basecamp_url);
             air.EncryptedLocalStore.setItem("basecamp_url", bytes);
 
             user_id = $(data).find('person > id').text();
@@ -204,9 +207,9 @@ function verifyAndSaveSettings() {
 function showMessage(msg) {
     $('#main-msg').text(msg);
     $('#main-msg').css('display', 'block');
-    setTimeout( function() { 
+    setTimeout( function() {
     $('#main-msg').css('display', 'none');
-        $('#main-msg').text(''); 
+        $('#main-msg').text('');
     }, 5000 );
 }
 
@@ -234,11 +237,22 @@ function showAbout() {
     openWindow("/root/about.html", 320, 210);
 }
 
+function showTodayDetails() {
+    openWindow("/root/details.html", 500, 400);
+  //  getTodayReport();
+}
+
+function showWeekDetails() {
+    openWindow("/root/details.html", 500, 400);
+//    getWeekReport();
+}
+
 function openWindow(path, height, width) {
-    var options = new air.NativeWindowInitOptions(); 
- 
-    var windowBounds = new air.Rectangle(200,250,height,width); 
-    newHTMLLoader = air.HTMLLoader.createRootWindow(true, options, true, windowBounds); 
+    var options = new air.NativeWindowInitOptions();
+
+    var windowBounds = new air.Rectangle(200,250,height,width);
+    newHTMLLoader = air.HTMLLoader.createRootWindow(true, options, true, windowBounds);
+    newHTMLLoader.window.opener = window;
     newHTMLLoader.load(new air.URLRequest(path));
 }
 
@@ -249,7 +263,7 @@ function closeAllWindows() {
 }
 
 function cleanupSysTray() {
-    air.NativeApplication.nativeApplication.icon.bitmaps = []; 
+    air.NativeApplication.nativeApplication.icon.bitmaps = [];
 }
 
 function cleanupAndQuit() {
