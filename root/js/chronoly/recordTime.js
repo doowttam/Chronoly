@@ -68,24 +68,35 @@ function getToDoList() {
 
 function getProjectList() {
     showLoading();
-    $.get(base_url + '/projects.xml', function(data) {
+    getProjects( function(data) {
         hideLoading();
 
         $('#project_select').append('<option value="-1">Select a project</option>');
 
-        $(data).find('projects > project').sort(byName).each(function() {
-            if ( $(this).children('status').text() != 'active' )
-                return;
-
-            var project_id = $(this).children('id').text();
-            var project_name = $(this).children('name').text();
-
-            $('#project_select').append('<option value="' + project_id + '">' + project_name + '</option>');
+        $.each(projects, function(id, project) {
+            $('#project_select').append('<option value="' + id + '">' + project.name + '</option>');
         });
 
         $('#project_select').change(getToDoList);
         $('#project_select').attr('disabled', null);
 
+    });
+}
+
+function getProjects(callback) {
+    $.get(base_url + '/projects.xml', function(data) {
+        $(data).find('projects > project').sort(byName).each(function() {
+            if ( $(this).children('status').text() != 'active' )
+                return;
+
+            var project_id   = $(this).children( 'id' ).text();
+            var project_name = $(this).children('name').text();
+
+            projects[project_id]         = {};
+            projects[project_id]['name'] = project_name;
+        });
+
+        callback();
     });
 }
 

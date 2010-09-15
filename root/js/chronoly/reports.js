@@ -143,7 +143,7 @@ function getProjectDetails( id ) {
     $.get( base_url + '/projects/' + id + '.xml', function(data) {
         project['name'] = $(data).find('project > name:first').text();
         $('#project_' + id + ' > div > h3:first').append( [project]['name'] );
-        air.trace( 'name: ' + project['name'] );
+        air.trace( 'proj name: ' + project['name'] );
     } );
     return project;
 }
@@ -155,7 +155,7 @@ function getTodoDetails( id ) {
     incrementReportRequests();
     $.get( base_url + '/todo_items/' + id + '.xml', function(data) {
         todo['name'] = $(data).find('todo-item > content:first').text();
-        air.trace( 'name: ' + todo['name'] );
+        air.trace( 'todo name: ' + todo['name'] );
     } );
     return todo;
 }

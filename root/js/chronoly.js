@@ -10,6 +10,8 @@ var base_url = '';
 var user_id;
 var minimized = false;
 
+var projects = {};
+
 function init() {
     air.trace('init');
 
