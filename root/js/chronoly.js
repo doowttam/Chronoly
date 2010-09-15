@@ -28,7 +28,7 @@ function init() {
     document.getElementById('settings_help_link').addEventListener("click", showHelp);
     document.getElementById('close_settings_link').addEventListener("click", hideSettings);
 
-    document.getElementById('time_logged_today').addEventListener("click", showTodayDetails);
+    document.getElementById('time_logged_today').addEventListener("click", showDayDetails);
     document.getElementById('time_logged_this_week').addEventListener("click", showWeekDetails);
 
     // Set the date boxes
@@ -260,12 +260,12 @@ function showAbout() {
     openWindow("/root/about.html", 320, 210);
 }
 
-function showTodayDetails() {
-    openWindow("/root/details.html", 500, 400);
+function showDayDetails() {
+    openWindow("/root/day_details.html", 500, 400);
 }
 
 function showWeekDetails() {
-    openWindow("/root/details.html", 500, 400);
+    openWindow("/root/week_details.html", 500, 400);
 }
 
 function openWindow(path, height, width) {

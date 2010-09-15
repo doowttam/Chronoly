@@ -59,8 +59,8 @@ function getReport( params ) {
     });
 }
 
-function getTodayReport() { getReport( getTodayParams() ); }
-function getWeekReport()  { getReport( getWeekParams()  ); }
+function getDayReport()  { getReport( getTodayParams() ); }
+function getWeekReport() { getReport( getWeekParams()  ); }
 
 // create projectId->todoId->hours->### structure
 function getReportObject( reportParamString, callback ) {
@@ -105,7 +105,15 @@ function getTodoDetails( id ) {
     return todo;
 }
 
+function initWeekDetails() {
+    initDetails();
+    getWeekReport();
+}
 
+function initDayDetails() {
+    initDetails();
+    getDayReport();
+}
 
 function initDetails() {
     api_token    = window.opener.api_token;
@@ -113,5 +121,4 @@ function initDetails() {
     base_url     = window.opener.base_url;
     user_id      = window.opener.user_id;
     projects     = window.opener.projects;
-    getWeekReport();
 }
