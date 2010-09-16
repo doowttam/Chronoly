@@ -28,6 +28,11 @@ function init() {
 
     // Set the date boxes
     dateToSelects(new Date());
+ 
+    // Add onChanges to the selects
+    $('#date_month').change(updateDateHint);
+    $('#date_day').change(updateDateHint);
+    $('#date_year').change(updateDateHint);
 
     // Set up the defaults for ajax
     $.ajaxSetup({
@@ -276,4 +281,44 @@ function cleanupSysTray() {
 function cleanupAndQuit() {
     closeAllWindows();
     cleanupSysTray();
+}
+
+function generateDateHint(compareToDate) {
+    var msInADay = 86400000;
+
+    var todaysDate = new Date();
+
+    // Simplify our two dates by zeroing out hours and below
+    todaysDate.setHours(0);
+    todaysDate.setMinutes(0);
+    todaysDate.setMilliseconds(0);
+    compareToDate.setHours(0);
+    compareToDate.setMinutes(0);
+    compareToDate.setMilliseconds(0);
+
+    var msDiff = compareToDate.getTime() - todaysDate.getTime();
+    var days   = msDiff / msInADay;
+    days       = days.toFixed(0);
+
+    if ( days == 0 ) {
+        // Today doesn't get a hint
+        return null;
+    } else if ( days > 0 && days <= 1 ) {
+        return 'Tomorrow';
+    } else if ( days < 0 && Math.abs(days) <= 1 ) {
+        return 'Yesterday';
+    } else if ( days < 0 ) {
+        return Math.abs(days) + ' days ago';
+    } else if ( days > 0 ) {
+        return days + ' days from now';
+    }
+}
+
+function updateDateHint() {
+    var hint = generateDateHint(selectsToDate());
+    if ( hint != null ) {
+        $('#date_hint').html(hint);
+    } else {
+        $('#date_hint').html('');
+    }
 }

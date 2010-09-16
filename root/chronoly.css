@@ -116,3 +116,7 @@ select.standard {
 .spacer {
     height: 1%;
 }
+
+#date_hint {
+    font-size: .75em;
+}
