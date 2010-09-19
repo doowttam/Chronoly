@@ -165,19 +165,17 @@ function _build_submit_time_ajax_params(item_id, hours, description, date) {
         getTimeReports();
     };
 
-    // Only include description if it's provided
-    var descriptionData = '';
-    if ( description != '' ) {
-        descriptionData =  '<description>' + description + '</description>';
-    }
+    var xmlDoc    = $('<xml>');
+    var timeEntry = $('<time-entry>').appendTo(xmlDoc);
 
-    ajax_params.data 
-        = '<time-entry>'
-        + '<person-id>'   + user_id     + '</person-id>'
-        + '<date>'        + date        + '</date>'
-        + '<hours>'       + hours       + '</hours>'
-        + descriptionData
-        + '</time-entry>';
+    $('<person-id>').html(user_id).appendTo(timeEntry);
+    $('<date>').html(date).appendTo(timeEntry);
+    $('<hours>').html(hours).appendTo(timeEntry);
+    $('<description>').html(description).appendTo(timeEntry);
+
+    // Only returns innerHTML, but that's okay because the outer
+    // xml tag is a placeholder
+    ajax_params.data = $(xmlDoc).html();
 
     return ajax_params;
 }

@@ -56,7 +56,7 @@ $(document).ready(function() {
     });
 
     test("Build Submit Time AJAX Params", function() {
-        expect(7);
+        expect(8);
 
         // Set up the global variables
         base_url = 'test.com';
@@ -107,12 +107,30 @@ $(document).ready(function() {
             + '<person-id>42</person-id>'
             + '<date>' + dateString + '</date>'
             + '<hours>1</hours>'
+            + '<description></description>'
             + '</time-entry>';
 
         equals(
             ajax_params.data,
             expected_data,
             'XML data built correctly when no description'
+        );
+
+        // Description with &
+        ajax_params = _build_submit_time_ajax_params(1, 1, 'this & this', new Date());
+
+        expected_data
+            = '<time-entry>'
+            + '<person-id>42</person-id>'
+            + '<date>' + dateString + '</date>'
+            + '<hours>1</hours>'
+            + '<description>this &amp; this</description>'
+            + '</time-entry>';
+
+        equals(
+            ajax_params.data,
+            expected_data,
+            'Ampersand properly escaped'
         );
 
         // Different date
@@ -128,6 +146,7 @@ $(document).ready(function() {
             + '<person-id>42</person-id>'
             + '<date>' + dateString + '</date>'
             + '<hours>1</hours>'
+            + '<description></description>'
             + '</time-entry>';
 
         equals(
@@ -135,7 +154,6 @@ $(document).ready(function() {
             expected_data,
             'XML data built correctly when different date'
         );
-
     });
 
     test("Validate Complete Item Params", function() {
