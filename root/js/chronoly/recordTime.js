@@ -130,7 +130,7 @@ function submitTime() {
 }
 
 function _validate_time_params(item_id, hours) {
-    var validation_obj   = new Object;
+    var validation_obj   = {};
     validation_obj.valid = true;
     validation_obj.msg   = '';
 
@@ -149,12 +149,12 @@ function _validate_time_params(item_id, hours) {
 function _build_submit_time_ajax_params(item_id, hours, description, date) {
     var date = dateToString(date);
     
-    var ajax_params = new Object;
-    ajax_params.url = base_url + '/todo_items/' +  item_id + '/time_entries.xml';
-    ajax_params.type = 'POST';
+    var ajax_params      = {};
+    ajax_params.url      = base_url + '/todo_items/' +  item_id + '/time_entries.xml';
+    ajax_params.type     = 'POST';
     ajax_params.dataType = 'text';
 
-    ajax_params.success = function(data, textStatus) {
+    ajax_params.success  = function(data, textStatus) {
         hideLoading();
         showMessage('Time successfully entered!');
 
@@ -199,7 +199,7 @@ function completeTodoItem() {
 }
 
 function _validate_item(item_id) {
-    var validation_obj   = new Object;
+    var validation_obj   = {};
     validation_obj.valid = true;
     validation_obj.msg   = '';
 
@@ -212,7 +212,7 @@ function _validate_item(item_id) {
 }
 
 function _build_complete_item_ajax_params(item_id) {
-    var ajax_params      = new Object;
+    var ajax_params      = {};
 
     ajax_params.url      = base_url + '/todo_items/' +  item_id + '/complete.xml';
     ajax_params.type     = 'PUT';
