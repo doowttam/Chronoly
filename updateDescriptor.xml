@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <update xmlns="http://ns.adobe.com/air/framework/update/description/1.0"> 
-  <version>0.6</version> 
+  <version>0.6.1</version>
   <url>http://chronoly.com/Chronoly.air</url> 
-  <description>Complete an item, pick a day to record your time, and backend refactors.</description> 
+  <description>Bug fixes, updates date overnight, a systray icon, and UI tweaks.</description> 
 </update>
