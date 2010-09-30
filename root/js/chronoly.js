@@ -10,6 +10,9 @@ var base_url = '';
 var user_id;
 var minimized = false;
 
+// Constants
+var MSINADAY = 86400000;
+
 function init() {
     air.trace('init');
 
@@ -69,6 +72,9 @@ function init() {
     // Periodically get new time reports (just in case time was added through the
     // Basecamp ui
     setInterval( getTimeReports, hoursToMS(0.5) );
+
+    // Catch the date rolling over so we can update it for the user
+    initDateWatcher();
 }
 
 function initSysTray() {
@@ -199,6 +205,13 @@ function selectsToDate() {
     date.setYear( parseInt( $('#date_year').val() ) );
     date.setDate( parseInt( $('#date_day').val() ) );
     date.setMonth( parseInt( $('#date_month').val() ) - 1);
+
+    // Zero out the minutes, seconds, etc. since we don't have valid data for them
+    date.setHours(0);
+    date.setMilliseconds(0);
+    date.setSeconds(0);
+    date.setMinutes(0);
+     
     return date;
 }
 
@@ -231,7 +244,7 @@ function showMessage(msg) {
     $('#main-msg').text(msg);
     $('#main-msg').css('display', 'block');
     setTimeout( function() { 
-    $('#main-msg').css('display', 'none');
+        $('#main-msg').css('display', 'none');
         $('#main-msg').text(''); 
     }, 5000 );
 }
@@ -284,20 +297,20 @@ function cleanupAndQuit() {
 }
 
 function generateDateHint(compareToDate) {
-    var msInADay = 86400000;
-
     var todaysDate = new Date();
 
     // Simplify our two dates by zeroing out hours and below
     todaysDate.setHours(0);
     todaysDate.setMinutes(0);
+    todaysDate.setSeconds(0);
     todaysDate.setMilliseconds(0);
     compareToDate.setHours(0);
     compareToDate.setMinutes(0);
+    compareToDate.setSeconds(0);
     compareToDate.setMilliseconds(0);
 
     var msDiff = compareToDate.getTime() - todaysDate.getTime();
-    var days   = msDiff / msInADay;
+    var days   = msDiff / MSINADAY;
     days       = days.toFixed(0);
 
     if ( days == 0 ) {
@@ -321,4 +334,31 @@ function updateDateHint() {
     } else {
         $('#date_hint').html('');
     }
+}
+
+function initDateWatcher() {
+    var selectsDate = selectsToDate();
+    var now         = new Date();
+
+    // If the selects are showing yesterday, update them to today
+    // The * 2 is because selectsToDate returns the day at exactly midnight
+    // so anything strictly less than two days ago is yesterday (or today, but that works too)
+    var diff = now.getTime() - selectsDate.getTime();
+    if (  diff > 0 && diff < MSINADAY * 2 ) {
+        dateToSelects(now);
+    }
+
+    // Update the date hint regardless
+    updateDateHint();
+
+    // Set up the next check
+    var midnight = new Date();
+    midnight.setHours(23);
+    midnight.setMilliseconds(999);
+    midnight.setSeconds(59);
+    midnight.setMinutes(59);
+    
+    var msUntilMidnight = midnight.getTime() - now.getTime() + 1;
+    
+    setTimeout(initDateWatcher, msUntilMidnight);
 }
