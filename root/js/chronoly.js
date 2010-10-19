@@ -276,8 +276,11 @@ function showAbout() {
 function openWindow(path, height, width) {
     var options = new air.NativeWindowInitOptions(); 
  
-    var windowBounds = new air.Rectangle(200,250,height,width); 
-    newHTMLLoader = air.HTMLLoader.createRootWindow(true, options, true, windowBounds); 
+    var xPos = window.screenX + 100;
+    var yPos = window.screenY + 100;
+
+    var windowBounds = new air.Rectangle(xPos, yPos, height, width); 
+    newHTMLLoader = air.HTMLLoader.createRootWindow(true, options, true, windowBounds);
     newHTMLLoader.load(new air.URLRequest(path));
 }
 
