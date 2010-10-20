@@ -4,14 +4,14 @@ $(document).ready(function() {
     test("Time Conversions", function() {
         expect(2);
 
-        var oneHourInMS = hoursToMS(1);
+        var oneHourInMS = CHRONOLY.hoursToMS(1);
         equals(
             oneHourInMS,
             3600000,
             'Expected: 3600000, got: ' +  oneHourInMS
         );
 
-        var oneHour = msToHours(3600000);
+        var oneHour = CHRONOLY.msToHours(3600000);
         equals(
             oneHour,
             1,
@@ -22,12 +22,10 @@ $(document).ready(function() {
     test("Date Hint", function() {
         expect(5);
 
-        var msInADay      = 86400000;
-
         var today         = new Date();
 
         var compareToDate = today;
-        var hint          = generateDateHint(compareToDate);
+        var hint          = CHRONOLY.generateDateHint(compareToDate);
 
         equals(
             hint,
@@ -36,8 +34,8 @@ $(document).ready(function() {
         );
         
         compareToDate = new Date();
-        compareToDate.setTime( today.getTime() - msInADay );
-        hint          = generateDateHint(compareToDate);
+        compareToDate.setTime( today.getTime() - CHRONOLY.CONSTANTS.MSINADAY );
+        hint          = CHRONOLY.generateDateHint(compareToDate);
 
         equals(
             hint,
@@ -46,8 +44,8 @@ $(document).ready(function() {
         );
 
         compareToDate = new Date();
-        compareToDate.setTime( today.getTime() + msInADay );
-        hint          = generateDateHint(compareToDate);
+        compareToDate.setTime( today.getTime() + CHRONOLY.CONSTANTS.MSINADAY );
+        hint          = CHRONOLY.generateDateHint(compareToDate);
 
         equals(
             hint,
@@ -56,8 +54,8 @@ $(document).ready(function() {
         );
 
         compareToDate = new Date();
-        compareToDate.setTime( today.getTime() + 4 * msInADay );
-        hint          = generateDateHint(compareToDate);
+        compareToDate.setTime( today.getTime() + 4 * CHRONOLY.CONSTANTS.MSINADAY );
+        hint          = CHRONOLY.generateDateHint(compareToDate);
 
         equals(
             hint,
@@ -66,8 +64,8 @@ $(document).ready(function() {
         );
 
         compareToDate = new Date();
-        compareToDate.setTime( today.getTime() - 4 * msInADay );
-        hint          = generateDateHint(compareToDate);
+        compareToDate.setTime( today.getTime() - 4 * CHRONOLY.CONSTANTS.MSINADAY );
+        hint          = CHRONOLY.generateDateHint(compareToDate);
 
         equals(
             hint,

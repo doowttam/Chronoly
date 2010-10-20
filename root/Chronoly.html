@@ -16,7 +16,7 @@
     
   </head>
 
-  <body onLoad="init()">
+  <body onLoad="CHRONOLY.init()">
 
     <!-- Splash Screen -->
     <div id="splash-screen" class="window">
@@ -116,15 +116,15 @@
 
           <div>
             Time:<input id="time_input" size="4" type="text"/> 
-            <button id="startTimer" onclick="startTimer()">Start</button>
-            <button id="stopTimer" onclick="stopTimer()" disabled="disabled">Stop</button>
+            <button id="startTimer" onclick="CHRONOLY.timer.startTimer()">Start</button>
+            <button id="stopTimer" onclick="CHRONOLY.timer.stopTimer()" disabled="disabled">Stop</button>
             <img id="timerGraphic" style="display:none" src="images/timing.gif" />
           </div>
           
           <div class="spacer"></div>
 
-          <button id="submitTime" onclick="submitTime()">Record Time</button>
-          <button id="completeItem" onclick="completeTodoItem()">Complete Item</button>
+          <button id="submitTime" onclick="CHRONOLY.timeRecorder.submitTime()">Record Time</button>
+          <button id="completeItem" onclick="CHRONOLY.timeRecorder.completeTodoItem()">Complete Item</button>
         </div>
       </div>
 
@@ -147,7 +147,7 @@
           <div id="settings_msg" class="message"></div>
           URL: <input id="basecamp_url" type="text" />.basecamphq.com<br />
           API token: <input id="api_token" type="text" /><br />
-          <button id="saveSettings" onclick="verifyAndSaveSettings()">Verify and Save</button>
+          <button id="saveSettings" onclick="CHRONOLY.verifyAndSaveSettings()">Verify and Save</button>
           <a href="#" id="close_settings_link">Close</a> <a href="#" id="settings_help_link">Need help?</a>
         </div>
       </div>
