@@ -12,7 +12,6 @@ var CHRONOLY = function() { return {
     user_id:      null,
     minimized:    false,
 
-    // Constants
     CONSTANTS: {
         MSINADAY: 86400000,
         MSINANHOUR: 3600000
